@@ -1,0 +1,39 @@
+server:
+  port: 8080 # 내장 톰캣 포트번호
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: 'jdbc:h2:mem:classRegist'    # H2 DB 연결 주소 (In-Memory Mode)
+    #        url: 'jdbc:h2:~/classRegist'    # H2 DB 연결 주소 (Embedded Mode)
+    username: admin
+    password: 1234
+
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show_sql: true        # 쿼리 로그 출력
+    properties:
+      hibernate:
+        format_sql: true      # 쿼리 로그 포맷 (정렬)
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      data-locations: classpath:import.sql
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug # logger에 출력하려면
+    org.hibernate.type.descriptor.sql: trace # 파라미터 값 출력
+
+

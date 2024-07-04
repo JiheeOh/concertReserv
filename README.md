@@ -11,8 +11,8 @@
 
 
 ## MileStone & 요구사항 분석 
-- Git Projects - issues 내 요구사항 분석 포함 <br>
-[Git Projects](https://github.com/users/JiheeOh/projects/3)
+- [Git Projects](https://github.com/users/JiheeOh/projects/3) - issues 내 요구사항 분석 포함 <br>
+
 ![스크린샷 2024-07-04 오전 1 17 56](https://github.com/JiheeOh/concertReserv/assets/75823407/d9345a4a-bd84-4458-b31e-b2351514e3a1)
 
 ## API 명세서 

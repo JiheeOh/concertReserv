@@ -24,4 +24,8 @@
 
 ![대기열 토큰 발급 Sequence Diagram (1)](https://github.com/JiheeOh/concertReserv/assets/75823407/6ab4b031-7fd6-4d29-bb6e-3e81e250e7f6)
 
+## ERD
+>  리뷰포인트 : 결제 테이블 설계가 좀 복잡하고 별로인 것 같은데 개선을 어떤식으로 하면 좋을지 모르겠습니다ㅠㅠ
+![ConcertReserv](https://github.com/JiheeOh/concertReserv/assets/75823407/a11852a4-5a11-4445-9df2-38a55c26a102)
+
 

@@ -20,7 +20,7 @@
 
 ## Sequence Diagram 
 - 대기열 토큰 발급
+![대기열 토큰 발급 Sequence Diagram](https://github.com/JiheeOh/concertReserv/assets/75823407/cd35842c-0b7c-498e-84f0-f0b6ebee3339)
 
-![대기열 토큰 발급 Sequence Diagram (1)](https://github.com/JiheeOh/concertReserv/assets/75823407/c0c25f38-fd4b-442c-badf-2db6161273d3)
 
 

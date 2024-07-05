@@ -5,6 +5,8 @@ import com.hhplus.concertReserv.application.PointFacade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/point")
 public class PointController {
@@ -15,6 +17,10 @@ public class PointController {
     }
 
 
+    @GetMapping("/find")
+    public ResponseEntity<Object> getPoint(@RequestParam UUID memberId) {
+        return ResponseEntity.ok().body(pointFacade.getPoint(memberId));
+    }
     @PatchMapping("/charge")
     public ResponseEntity<Object> charge(@RequestHeader String authorization, @RequestBody PointCommand.Charge requestBody) {
         return ResponseEntity.ok().body(pointFacade.charge(authorization,requestBody));

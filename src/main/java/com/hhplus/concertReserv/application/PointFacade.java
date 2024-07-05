@@ -4,6 +4,8 @@ import com.hhplus.concertReserv.domain.dto.PointDto;
 import com.hhplus.concertReserv.domain.service.PointService;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class PointFacade {
 
@@ -20,5 +22,9 @@ public class PointFacade {
 
     public PointDto paid(String authorization, PointCommand.Paid requestBody) {
         return pointService.paid(requestBody.payId(),requestBody.dueTime(),requestBody.amount());
+    }
+
+    public PointDto getPoint(UUID memberId) {
+        return pointService.getPoint(memberId);
     }
 }

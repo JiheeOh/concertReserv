@@ -15,4 +15,8 @@ public class PointService {
     public PointDto paid(UUID uuid, LocalDateTime localDateTime, Long amount) {
         return new PointDto();
     }
+
+    public PointDto getPoint(UUID memberId) {
+        return new PointDto();
+    }
 }

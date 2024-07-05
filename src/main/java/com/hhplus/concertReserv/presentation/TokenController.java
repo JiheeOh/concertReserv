@@ -17,6 +17,12 @@ public class TokenController {
         this.tokenFacade = tokenFacade;
     }
 
+    /**
+     * 대기열 토큰(jwtToken)을 발급
+     * requestBody에 콘서트 UUID와 사용자 UUID 정보가 있다.
+     * @param tokenRequest requestBody
+     * @return 대기열 토큰 (jwtToken)
+     */
     @PostMapping("/wait")
     public ResponseEntity<Object> getToken(@RequestBody TokenCommand.CreateToken tokenRequest) {
         return ResponseEntity.ok().body(tokenFacade.getToken(tokenRequest));

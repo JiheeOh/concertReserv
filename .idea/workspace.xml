@@ -5,21 +5,107 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e4a5a13-d0c9-4116-b7da-efddab5ae7f7" name="Changes" comment="# :sparkles: 새로운 기능 추가&#10;# :bug: 버그 수정&#10;# :memo: 문서 수정&#10;# :test_tube: 테스트 코드 추가&#10;# :zap: 코드 리팩토링&#10;# :bulb: 주석 추가 및 수정&#10;# :package: 빌드 부분 혹은 패키지 매니저 수정사항&#10;# :truck: 파일 이동 및 이름 변경 &#10;# :fire: 코드 및 파일 변경&#10;# :thread: 멀티스레드 혹은 동시성 관련 코드 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/PointController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/ReserveController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/TokenController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Concert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/ConcertSchedule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/ConcertSchedulePK.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Member.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Reservation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Seat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/SeatPK.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/ConcertRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/ConcertScheduleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/MemberRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/PaymentRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/ReservationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/SeatRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/repository/TokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/ValidationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/exception/InvalidArgumentException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/exception/OccupiedSeatException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/exception/SeatNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/exception/TokenNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/exception/UserNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/ConcertRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/ConcertScheduleRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/MemberRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/PaymentRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/ReservationRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/SeatRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/Impl/TokenRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/ConcertJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/ConcertScheduleJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/MemberJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/PaymentJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/ReservationJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/SeatJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/jpaRepository/TokenJPARepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/ApiControllerAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/controller/PointController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/controller/ReserveController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/controller/TokenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/hhplus/concertReserv/domain/service/ReservationServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/ConcertReservApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/ConcertReservApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/PointCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/PointCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/PointFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/PointFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/ReserveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/ReserveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/ReserveFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/ReserveFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/TokenCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/TokenCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/TokenFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/application/TokenFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/ConcertDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/ConcertDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/PointDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/PointDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/ReserveDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/ReserveDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/SeatDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/SeatDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/TokenDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/dto/TokenDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/entity/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/PointService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/PointService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/ReserveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/domain/service/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/infrastructure/PaymentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/PointController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/ReserveController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hhplus/concertReserv/presentation/TokenController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/import.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="concertReserv" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -36,10 +122,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2immykKj81ObhDTbJnp8O91QD8R" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -48,32 +134,70 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build concertReserv.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.ConcertReservApplication.executor": "Debug",
-    "git-widget-placeholder": "step6",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build concertReserv.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SeatRepositoryImplTest.findReserveAvailable.executor&quot;: &quot;Debug&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ConcertReservApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;step7&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.hhplus.concertReserv.infrastructure.Impl" />
+      <recent name="com.hhplus.concertReserv.domain.service" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.hhplus.concertReserv.exception" />
+      <recent name="com.hhplus.concertReserv.infrastructure.Impl" />
+      <recent name="com.hhplus.concertReserv.domain.repository" />
+      <recent name="com.hhplus.concertReserv.domain.entity" />
       <recent name="com.hhplus.concertReserv.presentation" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.ConcertReservApplication">
+    <configuration name="SeatRepositoryImplTest.findReserveAvailable" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hhplus.concertReserv.infrastructure.Impl.SeatRepositoryImplTest.findReserveAvailable&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="ConcertReservApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="concertReserv.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.hhplus.concertReserv.ConcertReservApplication" />
@@ -81,6 +205,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.SeatRepositoryImplTest.findReserveAvailable" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -98,6 +227,16 @@
       <option name="presentableId" value="Default" />
       <updated>1720104385162</updated>
       <workItem from="1720104389482" duration="1361000" />
+      <workItem from="1720406562446" duration="4058000" />
+      <workItem from="1720523348964" duration="8133000" />
+      <workItem from="1720544235797" duration="982000" />
+      <workItem from="1720545260943" duration="232000" />
+      <workItem from="1720579242386" duration="3526000" />
+      <workItem from="1720583139002" duration="6363000" />
+      <workItem from="1720617837366" duration="5522000" />
+      <workItem from="1720664832007" duration="6023000" />
+      <workItem from="1720696596027" duration="21118000" />
+      <workItem from="1720718191112" duration="3485000" />
     </task>
     <servers />
   </component>
@@ -114,5 +253,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="# :sparkles: 새로운 기능 추가&#10;# :bug: 버그 수정&#10;# :memo: 문서 수정&#10;# :test_tube: 테스트 코드 추가&#10;# :zap: 코드 리팩토링&#10;# :bulb: 주석 추가 및 수정&#10;# :package: 빌드 부분 혹은 패키지 매니저 수정사항&#10;# :truck: 파일 이동 및 이름 변경 &#10;# :fire: 코드 및 파일 변경&#10;# :thread: 멀티스레드 혹은 동시성 관련 코드 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="# :sparkles: 새로운 기능 추가&#10;# :bug: 버그 수정&#10;# :memo: 문서 수정&#10;# :test_tube: 테스트 코드 추가&#10;# :zap: 코드 리팩토링&#10;# :bulb: 주석 추가 및 수정&#10;# :package: 빌드 부분 혹은 패키지 매니저 수정사항&#10;# :truck: 파일 이동 및 이름 변경 &#10;# :fire: 코드 및 파일 변경&#10;# :thread: 멀티스레드 혹은 동시성 관련 코드 수정" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/hhplus/concertReserv/infrastructure/Impl/SeatRepositoryImplTest.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

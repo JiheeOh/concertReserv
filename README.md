@@ -2,9 +2,12 @@
 >항해플러스 99 콘서트예약서비스 구현
 
 - 3주차 : 요구사항 분석 및 설계
-
+- 4주차 : 주요 비즈니스 로직 구현 & swagger
 
 ---
+# Swagger 문서 스크린샷 
+<img width="1305" alt="스크린샷 2024-07-12 오전 9 23 08" src="https://github.com/user-attachments/assets/63990589-330f-4c64-bf8d-82667d77e544">
+
 
 # 산출물
 

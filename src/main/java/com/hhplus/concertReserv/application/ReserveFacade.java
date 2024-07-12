@@ -1,22 +1,34 @@
 package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.dto.ReserveDto;
-import com.hhplus.concertReserv.domain.service.ReserveService;
+import com.hhplus.concertReserv.domain.service.ReservationService;
+import com.hhplus.concertReserv.domain.service.ValidationService;
+import com.hhplus.concertReserv.exception.TokenNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class ReserveFacade {
-    private final ReserveService reserveService;
+    private final ValidationService validationService;
+    private final ReservationService reservationService;
 
-    public ReserveFacade(ReserveService reserveService) {
-        this.reserveService = reserveService;
+    public ReserveFacade(ReservationService reservationService, ValidationService validationService) {
+        this.reservationService = reservationService;
+        this.validationService = validationService;
     }
 
-    public ReserveDto findReserveAvailable(String authorization){
-        return reserveService.findReserveAvailable(authorization);
+    public ReserveDto findReserveAvailable(UUID concertId, Long tokenId){
+        if(validationService.isActivateToken(tokenId)){
+            throw new TokenNotFoundException("Token is deActivated",500);
+        }
+        return reservationService.findReserveAvailable(concertId);
     }
 
-    public ReserveDto applySeat(String authorization, ReserveCommand.ApplySeat requestBody){
-        return reserveService.applySeat(requestBody.seatId(),requestBody.concertDate(),requestBody.seatId());
+    public ReserveDto applySeat(ReserveCommand.ApplySeat requestBody){
+        if(validationService.isActivateToken(requestBody.tokenId())){
+            throw new TokenNotFoundException("Token is deActivated",500);
+        }
+        return reservationService.applySeat(requestBody.memberId(), requestBody.seatId());
     }
 }

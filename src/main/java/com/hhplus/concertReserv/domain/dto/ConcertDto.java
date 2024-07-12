@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.domain.dto;
 
+import com.hhplus.concertReserv.domain.entity.Seat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,14 @@ public class ConcertDto {
     UUID concertId;
     String concertNm;
     LocalDateTime concertDate;
-    String concertHall;
+    String hallNm;
     List<SeatDto> seat;
+
+    public ConcertDto(Seat seat) {
+        this.concertId = seat.getConcertSchedule().getConcertId().getConcertId();
+        this.concertNm = seat.getConcertSchedule().getConcertId().getConcertNm();
+        this.concertDate = seat.getConcertSchedule().getConcertDt();
+        this.hallNm = seat.getConcertSchedule().getHallNm();
+    }
 
 }

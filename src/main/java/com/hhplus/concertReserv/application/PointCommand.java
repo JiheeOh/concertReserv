@@ -19,7 +19,8 @@ public class PointCommand {
      * 결제 처리용 인자
      */
     public record Paid(
-            UUID payId,
+            Long tokenId,
+            UUID paymentId,
             LocalDateTime dueTime,
             Long amount
     ){

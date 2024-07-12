@@ -6,11 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PointDto {
-    String result;
+    boolean result;
     String message;
     Long point;
 
     public PointDto(){
-        this.result="success";
+        this.result=true;
+    }
+
+    public boolean getResult() {
+        return this.result;
     }
 }

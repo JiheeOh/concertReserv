@@ -8,12 +8,19 @@
 
 # 산출물
 
+<details>
+<summary>MileStone & 요구사항 분석 </summary>
+<div markdown="1">       
 
-
-## MileStone & 요구사항 분석 
 - [Git Projects](https://github.com/users/JiheeOh/projects/3) - issues 내 요구사항 분석 포함 <br>
 
 ![스크린샷 2024-07-04 오전 1 17 56](https://github.com/JiheeOh/concertReserv/assets/75823407/d9345a4a-bd84-4458-b31e-b2351514e3a1)
+
+</div>
+</details>
+
+
+## MileStone & 요구사항 분석 
 
 ## API 명세서 
 [postmanDocument](https://documenter.getpostman.com/view/23303389/2sA3dxEXgn)

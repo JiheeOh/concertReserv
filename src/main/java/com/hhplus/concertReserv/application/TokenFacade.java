@@ -28,7 +28,7 @@ public class TokenFacade {
     }
 
     public TokenDto findActivateToken(Long tokenId) {
-        if(!validationService.isToken(tokenId)){
+        if(!tokenService.isToken(tokenId)){
             throw new TokenNotFoundException("There is no token",500);
         }
         return tokenService.findActivateToken(tokenId);

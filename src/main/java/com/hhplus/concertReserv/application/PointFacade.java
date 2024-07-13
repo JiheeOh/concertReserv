@@ -2,6 +2,7 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.dto.PointDto;
 import com.hhplus.concertReserv.domain.service.PointService;
+import com.hhplus.concertReserv.domain.service.TokenService;
 import com.hhplus.concertReserv.domain.service.ValidationService;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
 import org.springframework.stereotype.Component;
@@ -12,11 +13,11 @@ import java.util.UUID;
 public class PointFacade {
 
     private final PointService pointService;
-    private final ValidationService validationService;
+    private final TokenService tokenService;
 
-    public PointFacade(PointService pointService,ValidationService validationService){
+    public PointFacade(PointService pointService,TokenService tokenService){
         this.pointService = pointService;
-        this.validationService = validationService;
+        this.tokenService = tokenService;
     }
 
 
@@ -25,7 +26,7 @@ public class PointFacade {
     }
 
     public PointDto paid(PointCommand.Paid requestBody) {
-        if(validationService.isActivateToken(requestBody.tokenId())){
+        if(tokenService.isActivateToken(requestBody.tokenId())){
             throw new TokenNotFoundException("Token is deActivated",500);
         }
         return pointService.paid(requestBody.paymentId(),requestBody.amount());

@@ -77,4 +77,28 @@ public class TokenService {
     public TokenDto findActivateToken(Long tokenId) {
         return tokenRepository.findActivateToken(tokenId).orElseThrow(()->new TokenNotFoundException("Token is deactivated",500));
     }
+
+    /**
+     * 활성화된 토큰인지 확인
+     * @param tokenId 확인하려는 토큰 id
+     * @return 활성화된 토큰이면 true 반환, 활성화된 토큰이 아니면 false 반환
+     */
+    public boolean isActivateToken(Long tokenId){
+        if (tokenRepository.findActivateToken(tokenId).isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 대기열에 등록된 토큰인지 확인
+     * @param tokenId 조회하려는 토큰
+     * @return 등록되어있는 토큰이면 true, 아니면 false
+     */
+    public boolean isToken(Long tokenId){
+        if(tokenRepository.isToken(tokenId).isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }

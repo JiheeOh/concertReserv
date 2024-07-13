@@ -1,6 +1,6 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
-import com.hhplus.concertReserv.domain.repository.TokenRepository;
+import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 

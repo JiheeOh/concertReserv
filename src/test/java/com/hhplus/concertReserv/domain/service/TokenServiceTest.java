@@ -1,9 +1,10 @@
 package com.hhplus.concertReserv.domain.service;
 
-import com.hhplus.concertReserv.domain.dto.TokenDto;
-import com.hhplus.concertReserv.domain.entity.Token;
-import com.hhplus.concertReserv.domain.repository.TokenRepository;
+import com.hhplus.concertReserv.domain.token.dto.TokenDto;
+import com.hhplus.concertReserv.domain.token.entity.Token;
+import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
+import com.hhplus.concertReserv.domain.token.service.TokenService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

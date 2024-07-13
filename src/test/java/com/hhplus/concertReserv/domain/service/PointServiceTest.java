@@ -1,8 +1,9 @@
 package com.hhplus.concertReserv.domain.service;
 
-import com.hhplus.concertReserv.domain.repository.MemberRepository;
-import com.hhplus.concertReserv.domain.repository.PaymentRepository;
-import com.hhplus.concertReserv.domain.repository.TokenRepository;
+import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
+import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
+import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
+import com.hhplus.concertReserv.domain.member.service.PointService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +15,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,16 +1,18 @@
 package com.hhplus.concertReserv.domain.service;
 
-import com.hhplus.concertReserv.domain.entity.Concert;
-import com.hhplus.concertReserv.domain.entity.ConcertSchedule;
-import com.hhplus.concertReserv.domain.entity.Seat;
-import com.hhplus.concertReserv.domain.entity.SeatPK;
-import com.hhplus.concertReserv.domain.repository.*;
-import com.hhplus.concertReserv.exception.OccupiedSeatException;
-import com.hhplus.concertReserv.exception.UserNotFoundException;
+import com.hhplus.concertReserv.domain.concert.entity.Concert;
+import com.hhplus.concertReserv.domain.concert.entity.ConcertSchedule;
+import com.hhplus.concertReserv.domain.concert.entity.Seat;
+import com.hhplus.concertReserv.domain.concert.entity.SeatPK;
+import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
+import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
+import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
+import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
+import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
+import com.hhplus.concertReserv.domain.reservation.service.ReservationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.Extension;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,9 +1,8 @@
 package com.hhplus.concertReserv.application;
 
-import com.hhplus.concertReserv.domain.dto.PointDto;
-import com.hhplus.concertReserv.domain.service.PointService;
-import com.hhplus.concertReserv.domain.service.TokenService;
-import com.hhplus.concertReserv.domain.service.ValidationService;
+import com.hhplus.concertReserv.domain.member.dto.PointDto;
+import com.hhplus.concertReserv.domain.member.service.PointService;
+import com.hhplus.concertReserv.domain.token.service.TokenService;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,12 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
-import com.hhplus.concertReserv.domain.entity.Payment;
-import com.hhplus.concertReserv.domain.entity.Reservation;
-import com.hhplus.concertReserv.domain.entity.Seat;
-import com.hhplus.concertReserv.domain.repository.*;
+import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
+import com.hhplus.concertReserv.domain.reservation.entity.Payment;
+import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
+import com.hhplus.concertReserv.domain.concert.entity.Seat;
+import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
+import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
+import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 

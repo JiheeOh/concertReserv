@@ -1,4 +1,4 @@
-package com.hhplus.concertReserv.domain.service;
+package com.hhplus.concertReserv.service;
 
 import com.hhplus.concertReserv.domain.dto.TokenDto;
 import com.hhplus.concertReserv.domain.entity.Token;
@@ -46,28 +46,7 @@ public class TokenService {
 
     }
 
-    /**
-     *
-     * 스케줄러로 대기열 처리 (200명 유지하도록)
-     * 1분마다 작동
-     * 1. 200명 통과처리 (놀이공원 방식)
-     * 2. 활성화인 토큰이 200이 넘을 경우, 활성화 상태가 30분째인 토큰 만료
-     */
-    @Scheduled(cron = "0 0/1 * * * *")
-    private void waitStatusUpdate() {
-        // 유량 설정
-        int updateCount = 200;
 
-        log.info(String.format("========== Update waiting status : %d ==========", updateCount));
-        int activatedTokenCount = tokenRepository.count();
-        if (activatedTokenCount < updateCount) {
-            tokenRepository.activateToken(updateCount);
-        }else{
-            tokenRepository.deactivateToken();
-        }
-        log.info(String.format("========== Update waiting status completed : %d ==========", updateCount));
-
-    }
 
     /**
      * 내 토큰이 활성화된 토큰인지 확인

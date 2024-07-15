@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.interfaces.controller;
 
+import com.hhplus.concertReserv.application.ConcertFacade;
 import com.hhplus.concertReserv.application.ReserveCommand;
 import com.hhplus.concertReserv.application.ReserveFacade;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
@@ -22,9 +23,11 @@ import java.util.UUID;
 @RequestMapping("/reserve")
 public class ReserveController {
     private final ReserveFacade reserveFacade;
+    private final ConcertFacade concertFacade;
 
-    public ReserveController(ReserveFacade reserveFacade) {
+    public ReserveController(ReserveFacade reserveFacade,ConcertFacade concertFacade) {
         this.reserveFacade = reserveFacade;
+        this.concertFacade = concertFacade;
     }
 
     /**
@@ -34,8 +37,8 @@ public class ReserveController {
      * @param concertId 콘서트 아이디
      * @return 예약가능한 날짜와 좌석 정보
      */
-    @GetMapping("/available")
-    @Operation(summary = "예약가능한 날짜와 좌석 정보 반환", description = "신청하려는 콘서트의 예약 가능한 날짜와 좌석 정보를 반환")
+    @GetMapping("/concerts")
+    @Operation(summary = "콘서트 별 예약가능한 날짜와 좌석 정보 반환", description = "신청하려는 콘서트의 예약 가능한 날짜와 좌석 정보를 반환")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = ReserveDto.class))})
             , @ApiResponse(responseCode = "404", description = "Not Found")})
     @Parameters({@Parameter(name = "tokenId", description = "토큰 ID", example = "1"),
@@ -43,6 +46,21 @@ public class ReserveController {
     public ResponseEntity<Object> reserveAvailable(@RequestHeader Long tokenId , @RequestParam UUID concertId) {
         return ResponseEntity.ok().body(reserveFacade.findReserveAvailable(concertId, tokenId));
     }
+
+    /**
+     * 콘서트 목록 조회
+     * @param tokenId 토큰 ID
+     * @return 콘서트 목록
+     */
+    @GetMapping("/concert")
+    @Operation(summary = "콘서트 목록 조회", description = "콘서트 목록 조회 ")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = ReserveDto.class))})
+            , @ApiResponse(responseCode = "404", description = "Not Found")})
+    @Parameters(@Parameter(name = "tokenId", description = "토큰 ID", example = "1"))
+    public ResponseEntity<Object> findConcertList(@RequestHeader Long tokenId ) {
+        return ResponseEntity.ok().body(concertFacade.findConcertList(tokenId));
+    }
+
 
     /**
      * 토큰,예약하려는 날짜와 좌석 정보를 받아 임시배정 처리

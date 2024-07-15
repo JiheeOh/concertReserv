@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SeatJPARepository extends JpaRepository<Seat, SeatPK> {
-    @Query("SELECT s FROM Seat s WHERE s.concertSchedule.concertId.concertId = :concertId")
+    @Query("SELECT s FROM Seat s WHERE s.concertSchedule.concert.concertId = :concertId")
     List<Seat> findByConcertId(@Param("concertId") UUID concertId);
 
 }

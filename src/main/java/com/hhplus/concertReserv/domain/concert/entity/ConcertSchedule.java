@@ -20,7 +20,7 @@ public class ConcertSchedule extends BaseEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "CONCERT_ID")
-    public Concert concertId;
+    public Concert concert;
 
     private String hallNm;
 

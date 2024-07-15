@@ -43,7 +43,6 @@ public class ReservationService {
         this.memberRepository = memberRepository;
     }
 
-    //TODO : 콘서트 목록 조회, 콘서트 별로 예약가능한 날짜 조회 기능이 필요하다 -> 결제 기능에서는 실패가 제일 중요하다 성공보다
     public ReserveDto findReserveAvailable(UUID concertId) {
         ReserveDto dto = new ReserveDto();
         try {
@@ -119,6 +118,5 @@ public class ReservationService {
 
         return resultDto;
     }
-
 
 }

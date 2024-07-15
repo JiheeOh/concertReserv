@@ -1,8 +1,8 @@
-package com.hhplus.concertReserv.domain.member.infrastructure.impl;
+package com.hhplus.concertReserv.infrastructure.member.impl;
 
 import com.hhplus.concertReserv.domain.member.entity.Member;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
-import com.hhplus.concertReserv.domain.member.infrastructure.jpaRepository.MemberJPARepository;
+import com.hhplus.concertReserv.infrastructure.member.jpaRepository.MemberJPARepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package com.hhplus.concertReserv.domain.concert.infrastructure.impl;
+package com.hhplus.concertReserv.infrastructure.concert.impl;
 
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.concert.entity.SeatPK;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
-import com.hhplus.concertReserv.domain.concert.infrastructure.repository.SeatJPARepository;
+import com.hhplus.concertReserv.infrastructure.concert.repository.SeatJPARepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

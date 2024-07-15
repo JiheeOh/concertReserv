@@ -1,8 +1,8 @@
-package com.hhplus.concertReserv.domain.reservation.infrastructure.impl;
+package com.hhplus.concertReserv.infrastructure.reservation.impl;
 
 import com.hhplus.concertReserv.domain.reservation.entity.Payment;
 import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
-import com.hhplus.concertReserv.domain.reservation.infrastructure.jpaRepository.PaymentJPARepository;
+import com.hhplus.concertReserv.infrastructure.reservation.jpaRepository.PaymentJPARepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

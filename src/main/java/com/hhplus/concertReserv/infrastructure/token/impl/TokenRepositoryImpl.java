@@ -1,9 +1,9 @@
-package com.hhplus.concertReserv.domain.token.infrastructure.impl;
+package com.hhplus.concertReserv.infrastructure.token.impl;
 
 import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.domain.token.entity.Token;
 import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
-import com.hhplus.concertReserv.domain.token.infrastructure.jpaRepository.TokenJPARepository;
+import com.hhplus.concertReserv.infrastructure.token.jpaRepository.TokenJPARepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

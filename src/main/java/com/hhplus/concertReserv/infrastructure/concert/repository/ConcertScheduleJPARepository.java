@@ -1,4 +1,4 @@
-package com.hhplus.concertReserv.domain.concert.infrastructure.repository;
+package com.hhplus.concertReserv.infrastructure.concert.repository;
 
 import com.hhplus.concertReserv.domain.concert.entity.ConcertSchedule;
 import com.hhplus.concertReserv.domain.concert.entity.ConcertSchedulePK;

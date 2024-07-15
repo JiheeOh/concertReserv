@@ -1,4 +1,4 @@
-package com.hhplus.concertReserv.domain.concert.infrastructure.repository;
+package com.hhplus.concertReserv.infrastructure.concert.repository;
 
 import com.hhplus.concertReserv.domain.concert.entity.Concert;
 import org.springframework.data.jpa.repository.JpaRepository;

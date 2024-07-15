@@ -9,7 +9,6 @@ public class TokenCommand {
      */
     public record CreateToken(
             UUID memberId,
-
             UUID concertId
     )
     {

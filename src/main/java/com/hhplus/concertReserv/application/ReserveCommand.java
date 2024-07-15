@@ -5,7 +5,9 @@ import java.util.UUID;
 
 public class ReserveCommand {
     public record ApplySeat(
+            UUID memberId,
             UUID concertId,
+            Long tokenId,
             LocalDateTime concertDate,
             UUID seatId
     ) {

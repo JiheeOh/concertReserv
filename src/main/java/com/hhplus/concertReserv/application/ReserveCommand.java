@@ -11,6 +11,9 @@ public class ReserveCommand {
             LocalDateTime concertDate,
             UUID seatId
     ) {
+        public ApplySeat(UUID memberId, UUID seatId) {
+            this(memberId, null, null, null, seatId);
+        }
     }
 
 

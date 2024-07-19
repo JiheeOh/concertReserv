@@ -9,7 +9,7 @@ public class TokenScheduler {
 
     private final TokenRepository tokenRepository;
 
-    public TokenScheduler(TokenRepository tokenRepository){
+    public TokenScheduler(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
 
@@ -24,13 +24,14 @@ public class TokenScheduler {
     private void waitStatusUpdate() {
         // 유량 설정
         int updateCount = 200;
+        int dueTime = 30;
 
         log.info(String.format("========== Update waiting status : %d ==========", updateCount));
-        int activatedTokenCount = tokenRepository.count();
+        int activatedTokenCount = tokenRepository.countActiveToken();
         if (activatedTokenCount < updateCount) {
             tokenRepository.activateToken(updateCount);
-        }else{
-            tokenRepository.deactivateToken();
+        } else {
+            tokenRepository.deactivateToken(dueTime);
         }
         log.info(String.format("========== Update waiting status completed : %d ==========", updateCount));
 

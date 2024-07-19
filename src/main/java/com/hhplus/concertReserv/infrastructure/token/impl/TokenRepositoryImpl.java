@@ -24,50 +24,50 @@ public class TokenRepositoryImpl implements TokenRepository {
 
     @Override
     public Optional<Token> getLastOne(UUID concertId) {
-        // TODO: 세부 구현 필요
-        // memberId, concertId, create_dt orderBy && status = 1
-        return null;
+        // 대기 중인 concertId별 대기열 중 제일 마지막 대기열 토큰 정보 가져오기
+        return tokenJPARepository.getLastOne(concertId);
     }
 
     @Override
-    public int count() {
-        // TODO : 세부 구현 필요
-        // select count(1) from Token where  status = 0
-        return 0;
+    public int countActiveToken() {
+        // 활성화된 토큰( status = 0 )의 개수 구하기
+        return tokenJPARepository.countActiveToken();
     }
 
     @Override
     public void activateToken(int count) {
-        // TODO : 세부 구현 필요
-        // memberId, concertId, create_dt orderBy 에서 200명까지 status = 0 처리
+        // memberId, concertId, create_dt orderBy 에서 count개수까지 status = 0 처리
         // 동시에 activate_at 에 sysdate 추가
+        tokenJPARepository.updateTokenStatusActivate(count);
     }
 
     @Override
-    public void deactivateToken() {
-        // TODO : 활성화 상태가 30분이상인 토큰 만료
+    public void deactivateToken(int dueTime) {
         // status = 0 이고 activate_at과 현재시간의 차이가 30분이상인 토큰들
+        tokenJPARepository.updateTokenStatusDeactivate(dueTime);
     }
 
     @Override
     public Optional<TokenDto> findActivateToken(Long tokenId) {
-        // TODO : 대기열에 등록된 토큰이 활성화 상태일 경우 토큰 반환, 활성화가 아닌 경우 null 반환
-        return null;
+        // 대기열 통과 후 활성화된 토큰인지 확인
+        return tokenJPARepository.findActivateToken(tokenId);
     }
 
     @Override
-    public Optional<TokenDto> isToken(Long tokenId) {
-        // TODO : 대기열에 등록된 토큰일 경우 토큰 반환,아닌 경우 null 반환
-        return null;
+    public Optional<Token> isToken(Long tokenId) {
+        // 대기열에 등록되어있는 토큰인지 확인
+        return tokenJPARepository.findById(tokenId);
     }
 
     @Override
     public void deactivateNotPaidToken(List<Long> tokenId) {
-        // TODO : tokenId에 해당되는 토큰들 status 0 전환
+        //여러토큰 비활성화
+        tokenJPARepository.updateTokenStatusDeactivate(tokenId);
     }
 
     @Override
     public void deactivateToken(Long tokenId) {
-        // TODO : 특정 token status 0 전환
+        // 특정 토큰 ID 비활성화
+        tokenJPARepository.updateTokenStatusDeactivate(tokenId);
     }
 }

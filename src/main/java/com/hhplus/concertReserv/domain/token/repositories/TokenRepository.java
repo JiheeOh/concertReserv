@@ -12,17 +12,17 @@ public interface TokenRepository {
 
     Optional<Token> getLastOne(UUID concertId);
 
-    int count();
-
     void activateToken(int count);
 
-    void deactivateToken();
+    void deactivateToken(int dueTime);
 
     Optional<TokenDto> findActivateToken(Long tokenId);
 
-    Optional<TokenDto> isToken(Long tokenId);
+    Optional<Token> isToken(Long tokenId);
 
     void deactivateNotPaidToken(List<Long> tokenIds);
 
     void deactivateToken(Long tokenId);
+
+    int countActiveToken();
 }

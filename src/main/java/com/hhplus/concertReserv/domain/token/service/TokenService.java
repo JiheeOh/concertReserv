@@ -4,6 +4,7 @@ import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.domain.token.entity.Token;
 import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
+import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,25 +27,30 @@ public class TokenService {
      * @return 등록된 토큰
      */
     public TokenDto createToken(UUID memberId, UUID concertId) {
-
-        // 대기 중인 제일 마지막 데이터 가져오기
-        Token lastOne = tokenRepository.getLastOne(concertId).orElse(new Token());
-
-
-        // 마지막 사람 기준으로 대기 토큰 생성
+        log.info(" ==== createToken() start ====");
         Token newOne = new Token();
-        newOne.setWaitOrder(lastOne.getWaitOrder() == null ? 0 : lastOne.getWaitOrder() + 1);
-        // TODO : ENUM 처리할 것
-        newOne.setStatus(1);
-        newOne.setMemberId(memberId);
-        newOne.setConcertId(concertId);
+        try{
+            // 대기 중인 제일 마지막 데이터 가져오기
+            Token lastOne = tokenRepository.getLastOne(concertId).orElse(new Token());
 
-        tokenRepository.save(newOne);
+            // 마지막 사람 기준으로 대기 토큰 생성
+            newOne.setWaitOrder(lastOne.getWaitOrder() == null ? 0 : lastOne.getWaitOrder() + 1);
+            // TODO : ENUM 처리할 것
+            newOne.setStatus(1);
+            newOne.setMemberId(memberId);
+            newOne.setConcertId(concertId);
+
+            tokenRepository.save(newOne);
+
+            log.info(" ==== createToken() end ====");
+        }catch (Exception e){
+            log.error(e.toString());
+
+        }
 
         return new TokenDto(newOne);
 
     }
-
 
 
     /**
@@ -53,20 +59,9 @@ public class TokenService {
      * @return 활성화된 토큰의 정보, 비활성화 토큰일 경우 exception 처리
      */
     public TokenDto findActivateToken(Long tokenId) {
-        return tokenRepository.findActivateToken(tokenId).orElseThrow(()->new TokenNotFoundException("Token is deactivated",500));
+        return tokenRepository.findActivateToken(tokenId).orElseThrow(()-> new TokenNotFoundException(ErrorCode.TOKEN_DEACTIVATED));
     }
 
-    /**
-     * 활성화된 토큰인지 확인
-     * @param tokenId 확인하려는 토큰 id
-     * @return 활성화된 토큰이면 true 반환, 활성화된 토큰이 아니면 false 반환
-     */
-    public boolean isActivateToken(Long tokenId){
-        if (tokenRepository.findActivateToken(tokenId).isEmpty()){
-            return false;
-        }
-        return true;
-    }
 
     /**
      * 대기열에 등록된 토큰인지 확인

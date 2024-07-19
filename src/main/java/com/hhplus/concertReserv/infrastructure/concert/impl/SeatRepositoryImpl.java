@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.infrastructure.concert.impl;
 
+import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.concert.entity.SeatPK;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
@@ -24,8 +25,7 @@ public class SeatRepositoryImpl implements SeatRepository{
 
     @Override
     public Optional<Seat> findSeat(UUID seatId) {
-        //TODO : seatId
-        return seatJPARepository.findById(new SeatPK(seatId,null));
+        return seatJPARepository.findById(new SeatPK(seatId, SeatEnum.AVAILABLE.getStatus()));
     }
 
     @Override

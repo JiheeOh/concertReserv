@@ -35,7 +35,7 @@ public class TokenService {
 
             // 마지막 사람 기준으로 대기 토큰 생성
             newOne.setWaitOrder(lastOne.getWaitOrder() == null ? 0 : lastOne.getWaitOrder() + 1);
-            // TODO : ENUM 처리할 것
+            // 대기 상태  : 1
             newOne.setStatus(1);
             newOne.setMemberId(memberId);
             newOne.setConcertId(concertId);

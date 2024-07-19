@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-#    url: 'jdbc:h2:mem:classRegist'    # H2 DB 연결 주소 (In-Memory Mode)
-    url: 'jdbc:h2:~/classRegist'    # H2 DB 연결 주소 (Embedded Mode)
+    url: 'jdbc:h2:mem:classRegist'    # H2 DB 연결 주소 (In-Memory Mode)
+    #        url: 'jdbc:h2:~/classRegist'    # H2 DB 연결 주소 (Embedded Mode)
     username: admin
     password: 1234
 
@@ -34,10 +34,13 @@ spring:
     init:
       data-locations: classpath:import.sql
 
+
 logging:
   level:
     org.hibernate.SQL: debug # logger에 출력하려면
     org.hibernate.orm.jdbc.bind: trace
+
+
 
 
 

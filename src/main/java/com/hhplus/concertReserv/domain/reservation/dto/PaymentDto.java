@@ -11,4 +11,5 @@ import java.util.UUID;
 public class PaymentDto {
     UUID payId;
     LocalDateTime dueTime;
+    Long payAmount;
 }

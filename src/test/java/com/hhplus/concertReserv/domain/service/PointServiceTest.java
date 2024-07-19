@@ -21,14 +21,8 @@ import static org.mockito.Mockito.when;
 class PointServiceTest {
     @InjectMocks
     private PointService pointService;
-
-    @Mock
-    private PaymentRepository paymentRepository;
     @Mock
     private MemberRepository memberRepository;
-    @Mock
-    private TokenRepository tokenRepository;
-
     @DisplayName("충전금액이 음수인 경우 exception 처리")
     @Test
     void charge() {
@@ -37,7 +31,7 @@ class PointServiceTest {
         UUID memberId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
 
         //then
-assertThat(pointService.charge(memberId,amount).getResult()).isEqualTo(false);
+        assertThat(pointService.charge(memberId, amount).getResult()).isEqualTo(false);
     }
 
     @DisplayName("결제금액이 음수인 경우 exception 처리")
@@ -48,7 +42,7 @@ assertThat(pointService.charge(memberId,amount).getResult()).isEqualTo(false);
         UUID memberId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
 
         //then
-        assertThat(pointService.paid(memberId,amount).getResult()).isEqualTo(false);
+        assertThat(pointService.paid(memberId, amount).getResult()).isEqualTo(false);
     }
 
     /**

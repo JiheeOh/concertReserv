@@ -1,10 +1,11 @@
 package com.hhplus.concertReserv.exception;
 
-public class UserNotFoundException extends RuntimeException{
-    private final int ERROR_CODE;
+import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 
-    public UserNotFoundException(String msg, int errorCode) {
-        super(msg);
+public class UserNotFoundException extends RuntimeException{
+    private final ErrorCode ERROR_CODE;
+
+    public UserNotFoundException(ErrorCode errorCode) {
         ERROR_CODE = errorCode;
     }
 }

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PointCommand {
-    // TODO : Command에 대한 조사를 하자
     /**
      * 충전용 인자
      * @param memberId
@@ -25,5 +24,8 @@ public class PointCommand {
             LocalDateTime dueTime,
             Long amount
     ){
+        public Paid(UUID paymentId, Long amount) {
+            this(null, paymentId, null, amount);
+        }
     }
 }

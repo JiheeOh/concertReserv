@@ -16,7 +16,7 @@ public class ConcertScheduleRepositoryImpl implements ConcertScheduleRepository 
     }
     @Override
     public List<ConcertDto> findConcertList() {
-        List<ConcertSchedule> concertScheduleList = concertScheduleJPARepository.findAll();
+        List<ConcertSchedule> concertScheduleList = concertScheduleJPARepository.findAllByDelYn();
 
         return concertScheduleList.stream().map(ConcertDto::new).toList();
     }

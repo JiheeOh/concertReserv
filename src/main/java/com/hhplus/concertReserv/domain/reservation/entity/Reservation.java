@@ -24,7 +24,7 @@ public class Reservation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID reservationId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST )
     @JoinColumns({
             @JoinColumn(name="SEAT_ID", referencedColumnName = "seatId" ,foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)),
             @JoinColumn(name="STATUS",referencedColumnName = "status",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

@@ -10,18 +10,14 @@ import java.util.List;
 
 @Component
 public class ConcertFacade {
-    private final TokenService tokenService;
 
     private final ConcertService concertService;
 
-    public ConcertFacade( TokenService tokenService, ConcertService concertService){
-        this.tokenService = tokenService;
+    public ConcertFacade(ConcertService concertService) {
         this.concertService = concertService;
     }
-    public List<ConcertDto> findConcertList(Long tokenId) {
-        if(tokenService.isActivateToken(tokenId)){
-            throw new TokenNotFoundException("Token is deActivated",500);
-        }
+
+    public List<ConcertDto> findConcertList() {
         return concertService.findConcertList();
     }
 }

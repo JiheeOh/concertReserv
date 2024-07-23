@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public class PaymentRepositoryImpl implements PaymentRepository {
-    private PaymentJPARepository paymentJPARepository;
+    private final PaymentJPARepository paymentJPARepository;
 
     public PaymentRepositoryImpl(PaymentJPARepository paymentJPARepository){
         this.paymentJPARepository = paymentJPARepository;
@@ -25,7 +25,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
     @Override
     public List<Payment> findNotPaidToken() {
-        return new ArrayList<>();
+        return paymentJPARepository.findNotPaidToken();
     }
 
     @Override

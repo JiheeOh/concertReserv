@@ -4,6 +4,7 @@ import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.domain.common.service.ValidationService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
+import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class TokenFacade {
 
     public TokenDto findActivateToken(Long tokenId) {
         if(!tokenService.isToken(tokenId)){
-            throw new TokenNotFoundException("There is no token",500);
+            throw new TokenNotFoundException(ErrorCode.TOKEN_NOT_FOUND);
         }
         return tokenService.findActivateToken(tokenId);
     }

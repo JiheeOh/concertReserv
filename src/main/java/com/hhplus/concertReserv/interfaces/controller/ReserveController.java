@@ -43,22 +43,20 @@ public class ReserveController {
             , @ApiResponse(responseCode = "404", description = "Not Found")})
     @Parameters({@Parameter(name = "tokenId", description = "토큰 ID", example = "1"),
             @Parameter(name = "concertId", description = "콘서트 ID", example = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d")})
-    public ResponseEntity<Object> reserveAvailable(@RequestHeader Long tokenId , @RequestParam UUID concertId) {
-        return ResponseEntity.ok().body(reserveFacade.findReserveAvailable(concertId, tokenId));
+    public ResponseEntity<Object> reserveAvailable(@RequestParam UUID concertId) {
+        return ResponseEntity.ok().body(reserveFacade.findReserveAvailable(concertId));
     }
 
     /**
      * 콘서트 목록 조회
-     * @param tokenId 토큰 ID
      * @return 콘서트 목록
      */
     @GetMapping("/concert")
     @Operation(summary = "콘서트 목록 조회", description = "콘서트 목록 조회 ")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = ReserveDto.class))})
             , @ApiResponse(responseCode = "404", description = "Not Found")})
-    @Parameters(@Parameter(name = "tokenId", description = "토큰 ID", example = "1"))
-    public ResponseEntity<Object> findConcertList(@RequestHeader Long tokenId ) {
-        return ResponseEntity.ok().body(concertFacade.findConcertList(tokenId));
+    public ResponseEntity<Object> findConcertList() {
+        return ResponseEntity.ok().body(concertFacade.findConcertList());
     }
 
 

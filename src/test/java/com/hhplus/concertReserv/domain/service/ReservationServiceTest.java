@@ -62,7 +62,7 @@ class ReservationServiceTest {
 
         ConcertSchedule concertSchedule = new ConcertSchedule();
         concertSchedule.setConcertDt(LocalDateTime.of(2024, 12, 25, 13, 0, 0));
-        concertSchedule.setConcert(concert);
+        concertSchedule.setConcertId(concert);
         concertSchedule.setHallNm("메인홀 A");
 
         Seat seat = new Seat();
@@ -78,9 +78,9 @@ class ReservationServiceTest {
         when(seatRepository.findReserveAvailable(concertID)).thenReturn(result);
 
         //Then
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertId()).isEqualTo(result.get(0).getConcertSchedule().getConcert().getConcertId());
+        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertId()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertId());
         assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertDate()).isEqualTo(result.get(0).getConcertSchedule().getConcertDt());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertNm()).isEqualTo(result.get(0).getConcertSchedule().getConcert().getConcertNm());
+        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertNm()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertNm());
         assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getSeatNo()).isEqualTo(result.get(0).getSeatNo());
         assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getSeatClass()).isEqualTo(result.get(0).getSeatClass());
         assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getPrice()).isEqualTo(result.get(0).getPrice());

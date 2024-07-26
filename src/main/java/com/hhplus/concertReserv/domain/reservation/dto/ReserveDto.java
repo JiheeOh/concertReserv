@@ -17,6 +17,11 @@ public class ReserveDto {
         this.message= "";
     }
 
+    public ReserveDto(boolean result, String message) {
+        this.result = result;
+        this.message = message;
+    }
+
 
     public boolean getResult() {
         return this.result;

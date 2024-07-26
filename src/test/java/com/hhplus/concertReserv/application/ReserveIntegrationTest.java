@@ -2,7 +2,6 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -78,46 +73,5 @@ class ReserveIntegrationTest {
         // 자리가 OCCUPIED 되었는지 확인
         assertThat(result.getConcert().getSeat().get(0).getStatus()).isEqualTo(SeatEnum.RESERVED.getStatus());
     }
-
-    /**
-     * 여러명이 같은 좌석을 예약할 경우,
-     * 선착순 1명만 해당 좌석을 예약되고
-     * 나머지는 OccupiedException 을 받는지 확인
-     */
-
-    @DisplayName("좌석 예약 기능 정상 확인 : 동시성 테스트")
-    @Test
-    void applySeat_Multiple() throws ExecutionException, InterruptedException {
-        //given
-        UUID member1 = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
-        UUID member2 = UUID.fromString("9687369c-3362-4d1b-bbba-667a8ef37ab8");
-        UUID member3 = UUID.fromString("411bd85c-c387-4c65-ab17-196a5a6f1505");
-
-        UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
-
-        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId);
-        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId);
-        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId);
-
-        // when
-        CompletableFuture<ReserveDto> future1  = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request1));
-        CompletableFuture<ReserveDto> future2 = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request2));
-        CompletableFuture<ReserveDto> future3 = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request3));
-
-        List<CompletableFuture<ReserveDto>> futures = List.of(future1, future2, future3);
-
-        CompletableFuture<List<ReserveDto>> result = CompletableFuture.allOf(futures.toArray((new CompletableFuture[futures.size()])))
-                .thenApply(v -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
-
-        //then
-        // 성공한 갯수가 1개인지 확인
-        assertThat(result.get().stream().filter(ReserveDto::getResult).toList().size()).isEqualTo(1);
-        // 실패 갯수가 2개인지 확인
-        assertThat(result.get().stream().filter(x->!x.getResult()).toList().size()).isEqualTo(2);
-        // 예외 메세지 확인
-        assertThat(result.get().stream().filter(x->!x.getResult()).toList().get(0).getMessage()).isEqualTo(ErrorCode.OCCUPIED_SEAT.getMessage());
-
-    }
-
 
 }

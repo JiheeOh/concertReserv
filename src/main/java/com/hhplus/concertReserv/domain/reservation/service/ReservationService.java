@@ -7,21 +7,19 @@ import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
 import com.hhplus.concertReserv.domain.member.entity.Member;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
-import com.hhplus.concertReserv.domain.reservation.dto.PaymentDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
-import com.hhplus.concertReserv.domain.reservation.entity.Payment;
+import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
 import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
-import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
 import com.hhplus.concertReserv.exception.OccupiedSeatException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,19 +28,15 @@ import java.util.UUID;
 public class ReservationService {
     private final SeatRepository seatRepository;
     private final ReservationRepository reservationRepository;
-    private final PaymentRepository paymentRepository;
 
     private final MemberRepository memberRepository;
 
 
-
     public ReservationService(SeatRepository seatRepository,
                               ReservationRepository reservationRepository,
-                              PaymentRepository paymentRepository,
                               MemberRepository memberRepository) {
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;
-        this.paymentRepository = paymentRepository;
         this.memberRepository = memberRepository;
     }
 
@@ -75,57 +69,43 @@ public class ReservationService {
      * @param seatId   좌석 ID
      * @return 결제 ID와 결제 만료 시간
      */
-    public ReserveDto applySeat(UUID memberId, UUID seatId) {
-        ReserveDto resultDto = new ReserveDto();
+
+    @Transactional
+    public ReserveInfoDto applySeat(UUID memberId, UUID seatId) {
+        ReserveInfoDto resultDto = new ReserveInfoDto();
 
         try {
-            log.info(" ==== applySeat() start ====");
-            // 1. 자리가 배정되어있는지 , 등록된 사용자인지 확인
-            Seat seat = seatRepository.findSeat(seatId).orElseThrow(() -> new OccupiedSeatException(ErrorCode.OCCUPIED_SEAT));
-
+            log.info(String.format(" ==== applySeat() start  : %s ====",memberId));
+            // 1. 등록된 사용자인지 확인
             Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-            //2. 자리 임시 배정 처리 ( RESEVERED )
+            // 2. 자리 임시 배정 처리 ( RESERVED )
+            Seat seat = seatRepository.findSeat(seatId).orElseThrow(() -> new OccupiedSeatException(ErrorCode.OCCUPIED_SEAT));
+
+            seat.setStatus(SeatEnum.RESERVED.getStatus());
+            seatRepository.save(seat);
+
+            // 3. 예약 정보 저장
             Reservation reservation = new Reservation();
-            seat.getSeatPk().setStatus(SeatEnum.RESERVED.getStatus());
             reservation.setSeat(seat);
             reservation.setMember(member);
             reservation.setConfirmYn("N");
+//          unique key로 동시성 제어할때 필요
+//            reservation.setStatus(SeatEnum.RESERVED.getStatus());
 
-            Reservation afterReservation = reservationRepository.save(reservation);
-
-            //3. 결제 ID 생성해서 반환
-            Payment payment = new Payment();
-            payment.setPayYn("N");
-            payment.setPrice(seat.getPrice());
-            payment.setDueTime(LocalDateTime.now().plusMinutes(5));
-            payment.setReservation(afterReservation);
-
-            Payment afterPayment = paymentRepository.save(payment);
-            PaymentDto paymentDto = new PaymentDto();
-            paymentDto.setDueTime(afterPayment.getDueTime());
-            paymentDto.setPayId(afterPayment.getPaymentId());
-            paymentDto.setPayAmount(afterPayment.getPrice());
-
-            //4. 예약된 좌석 정보 반환
-            List<SeatDto> seatDtoList = new ArrayList<>();
-            seatDtoList.add(new SeatDto(afterPayment.getReservation().getSeat()));
-            ConcertDto concertDto = new ConcertDto(reservation.getSeat());
-            concertDto.setSeat(seatDtoList);
-
-
-            //5. 결과값 반환
-            resultDto.setPayment(paymentDto);
-            resultDto.setConcert(concertDto);
-
-            log.info(" ==== applySeat() end ====");
+            resultDto.setReservation(reservationRepository.save(reservation));
+            log.info(String.format(" ==== applySeat() success  : %s ====",memberId));
 
         } catch (OccupiedSeatException e) { // 체크 당시 이미 자리가 차있을 경우
             log.error("=== Seat already occupied ===");
             resultDto.setResult(false);
             resultDto.setMessage(ErrorCode.OCCUPIED_SEAT.getMessage());
         } catch (DataIntegrityViolationException e) { // 체크한 이후에 들어갔을 경우 대비
-            log.error("=== Seat occupied recently ===");
+            log.error(String.format("=== Seat occupied recently : %s ===", memberId));
+            resultDto.setResult(false);
+            resultDto.setMessage(ErrorCode.OCCUPIED_SEAT.getMessage());
+        }catch(ObjectOptimisticLockingFailureException e){
+            log.error(String.format("낙관적 락 exception 정상 발생 %s",e));
             resultDto.setResult(false);
             resultDto.setMessage(ErrorCode.OCCUPIED_SEAT.getMessage());
         } catch (Exception e) {

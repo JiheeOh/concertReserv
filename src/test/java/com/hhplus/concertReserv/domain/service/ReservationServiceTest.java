@@ -3,12 +3,10 @@ package com.hhplus.concertReserv.domain.service;
 import com.hhplus.concertReserv.domain.concert.entity.Concert;
 import com.hhplus.concertReserv.domain.concert.entity.ConcertSchedule;
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
-import com.hhplus.concertReserv.domain.concert.entity.SeatPK;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
 import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
-import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import com.hhplus.concertReserv.domain.reservation.service.ReservationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,8 +39,6 @@ class ReservationServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
-    @Mock
-    private TokenRepository tokenRepository;
 
     /**
      * 등록된 콘서트 Id로 예약 가능한 날짜와 자리 조회
@@ -53,7 +49,7 @@ class ReservationServiceTest {
         //given
         UUID concertID = UUID.fromString("e50b778-4de9-40e1-b9ba-9b1e786b4197");
         List<Seat> result = new ArrayList<>();
-        SeatPK seatPk = new SeatPK(UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039"), "AVAILABLE");
+        UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
         Concert concert = new Concert();
         concert.setConcertId(concertID);
@@ -66,7 +62,7 @@ class ReservationServiceTest {
         concertSchedule.setHallNm("메인홀 A");
 
         Seat seat = new Seat();
-        seat.setSeatPk(seatPk);
+        seat.setSeatId(seatId);
         seat.setConcertSchedule(concertSchedule);
         seat.setSeatNo(1L);
         seat.setSeatClass("VVIP");
@@ -102,7 +98,7 @@ class ReservationServiceTest {
         when(seatRepository.findSeat(seatId)).thenReturn(Optional.empty());
 
         //then
-        assertThat(reservationService.applySeat(memberId, concertID).getResult()).isEqualTo(false);
+        assertThat(reservationService.applySeat(memberId, concertID).isResult()).isEqualTo(false);
 
     }
 
@@ -122,7 +118,7 @@ class ReservationServiceTest {
         when(seatRepository.findSeat(seatId)).thenReturn(Optional.of(new Seat()));
         when(memberRepository.findMember(memberId)).thenReturn(Optional.empty());
         //then
-        assertThat(reservationService.applySeat(memberId, concertID).getResult()).isEqualTo(false);
+        assertThat(reservationService.applySeat(memberId, concertID).isResult()).isEqualTo(false);
 
     }
 }

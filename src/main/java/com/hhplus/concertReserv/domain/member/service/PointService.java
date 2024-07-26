@@ -10,6 +10,8 @@ import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import com.hhplus.concertReserv.exception.InvalidAmountException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -23,6 +25,9 @@ public class PointService {
     private final PaymentRepository paymentRepository;
 
     private final MemberRepository memberRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     public PointService(PaymentRepository paymentRepository, MemberRepository memberRepository) {
@@ -58,6 +63,7 @@ public class PointService {
 
             } catch (Exception e) {
                 log.error(e.toString());
+                entityManager.clear();
                 pointDto.setResult(false);
                 pointDto.setMessage(e.toString());
 
@@ -128,6 +134,7 @@ public class PointService {
             } catch (ObjectOptimisticLockingFailureException oe) {
                 log.error(oe.toString());
                 log.info(String.format("======= retrycount : %d ======",retryCount));
+                entityManager.clear();
                 pointDto.setResult(false);
                 pointDto.setMessage(oe.toString());
 

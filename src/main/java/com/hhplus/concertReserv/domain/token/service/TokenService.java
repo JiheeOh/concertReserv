@@ -74,4 +74,13 @@ public class TokenService {
         }
         return true;
     }
+
+    /**
+     * 토큰 만료 처리
+     * @param tokenId
+     */
+    public void deactivateToken(Long tokenId){
+        tokenRepository.deactivateToken(tokenId);
+
+    }
 }

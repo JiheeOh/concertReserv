@@ -24,8 +24,8 @@ public class PointCommand {
             LocalDateTime dueTime,
             Long amount
     ){
-        public Paid(UUID paymentId, Long amount) {
-            this(null, paymentId, null, amount);
+        public Paid(Long tokenId,UUID paymentId, Long amount) {
+            this(tokenId, paymentId, null, amount);
         }
     }
 }

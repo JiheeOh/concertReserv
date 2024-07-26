@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.domain.reservation.dto;
 
+import com.hhplus.concertReserv.domain.reservation.entity.Payment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,13 @@ public class PaymentDto {
     UUID payId;
     LocalDateTime dueTime;
     Long payAmount;
+    Long tokenId;
+
+    public PaymentDto(Payment payment){
+        this.dueTime = payment.getDueTime();
+        this.payId = payment.getPaymentId();
+        this.payAmount = payment.getPrice();
+        this.tokenId = payment.getTokenId();
+
+    }
 }

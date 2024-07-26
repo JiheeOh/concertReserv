@@ -10,6 +10,7 @@ public class ReserveInfoDto {
     private boolean result;
     private String message;
     private Reservation reservation;
+    private Long tokenId;
 
     public ReserveInfoDto(){
         this.result =true;

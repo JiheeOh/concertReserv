@@ -2,10 +2,15 @@
 >항해플러스 99 콘서트예약서비스 구현
 
 - 3주차 : 요구사항 분석 및 설계
-- 4주차 : 주요 비즈니스 로직 구현 
-
+- 4,5주차 : 주요 비즈니스 로직 구현
+- 6주차 : 동시성 대응 
 
 ---
+# 동시성 분석 자료 
+
+- [동시성 분석 자료 Notion](https://pumped-polka-4d3.notion.site/6-a0d0d8d8d8f74b168c96854946bc89c0)
+
+
 # Swagger
 <img width="1338" alt="스크린샷 2024-07-12 오전 9 25 32" src="https://github.com/user-attachments/assets/50fce74a-0968-42e8-8453-7a05017a4c6e">
 
@@ -45,7 +50,7 @@
 <details>
 <summary>ERD  </summary>
 <div markdown="1">       
->  리뷰포인트 : 결제 테이블 설계가 좀 복잡하고 별로인 것 같은데 개선을 어떤식으로 하면 좋을지 모르겠습니다ㅠㅠ
+
 ![ConcertReserv](https://github.com/JiheeOh/concertReserv/assets/75823407/a11852a4-5a11-4445-9df2-38a55c26a102)
 
 

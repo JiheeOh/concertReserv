@@ -44,7 +44,7 @@ class PointIntegrationTest {
 
         //then
         assertThat(result.getResult()).isEqualTo(true);
-        assertThat(result.getPoint()).isEqualTo(pointDto.getPoint()+amount);
+        assertThat(result.getPoint()).isEqualTo(pointDto.getPoint() + amount);
 
     }
 
@@ -54,16 +54,17 @@ class PointIntegrationTest {
         //given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
+        Long tokenId = 1L;
 
-        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID,seatID);
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID,tokenId);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
 
 
         // given2 : 결제 요청
-        PointCommand.Paid request = new PointCommand.Paid(reserveResult.getPayment().getPayId(),reserveResult.getPayment().getPayAmount());
+        PointCommand.Paid request = new PointCommand.Paid(tokenId,reserveResult.getPayment().getPayId(), reserveResult.getPayment().getPayAmount());
 
         //when
-        assertDoesNotThrow(()-> pointFacade.paid(request));
+        assertDoesNotThrow(() -> pointFacade.paid(request));
 
     }
 
@@ -71,7 +72,7 @@ class PointIntegrationTest {
     @Test
     void getPoint() {
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
-        assertDoesNotThrow(()->pointFacade.getPoint(memberID));
+        assertDoesNotThrow(() -> pointFacade.getPoint(memberID));
     }
 
     @DisplayName("포인트 조회 세부정보 확인")

@@ -44,9 +44,14 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId);
-        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId);
-        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId);
+        Long tokenId1 = 1L;
+        Long tokenId2 = 2L;
+        Long tokenId3 = 3L;
+
+
+        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId, tokenId1);
+        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId, tokenId2);
+        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId, tokenId3);
 
         // when
         CompletableFuture<ReserveDto> future1 = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request1));
@@ -82,9 +87,13 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId);
-        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId);
-        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId);
+        Long tokenId1 = 1L;
+        Long tokenId2 = 2L;
+        Long tokenId3 = 3L;
+
+        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId,tokenId1);
+        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId,tokenId2);
+        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId,tokenId3);
 
         // when
         CompletableFuture<ReserveDto> future1 = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request1));
@@ -99,9 +108,9 @@ public class ReserveConcurrencyTest {
 
         Exception exception = new Exception();
 
-        try{
+        try {
             result.get();
-        }catch (Exception e){
+        } catch (Exception e) {
             exception = (Exception) e.getCause();
         }
 
@@ -119,9 +128,13 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId);
-        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId);
-        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId);
+        Long tokenId1 = 1L;
+        Long tokenId2 = 2L;
+        Long tokenId3 = 3L;
+
+        ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId,tokenId1);
+        ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId,tokenId2);
+        ReserveCommand.ApplySeat request3 = new ReserveCommand.ApplySeat(member3, seatId,tokenId3);
 
         // when
         CompletableFuture<ReserveDto> future1 = CompletableFuture.supplyAsync(() -> reserveFacade.applySeat(request1));
@@ -134,6 +147,6 @@ public class ReserveConcurrencyTest {
                 .thenApply(v -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 
         assertThat(result.get().stream().filter(ReserveDto::getResult).toList().size()).isEqualTo(1);
-        assertThat(result.get().stream().filter(x-> !x.getResult()).toList().size()).isEqualTo(2);
+        assertThat(result.get().stream().filter(x -> !x.getResult()).toList().size()).isEqualTo(2);
     }
 }

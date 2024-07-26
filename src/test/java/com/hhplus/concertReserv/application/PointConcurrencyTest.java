@@ -100,7 +100,7 @@ public class PointConcurrencyTest {
                 .thenApply(v -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 
         // then
-        assertThat(pointFacade.getPoint(memberID).getPoint()).isNotEqualTo(expectedPoint);
+        assertThat(pointFacade.getPoint(memberID).getPoint()).isEqualTo(expectedPoint);
     }
 
     @DisplayName("좌석 예약 동시성 테스트 : 비관적 락 ")
@@ -139,7 +139,7 @@ public class PointConcurrencyTest {
                 .thenApply(v -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 
         // then
-        assertThat(pointFacade.getPoint(memberID).getPoint()).isNotEqualTo(expectedPoint);
+        assertThat(pointFacade.getPoint(memberID).getPoint()).isEqualTo(expectedPoint);
     }
 
 }

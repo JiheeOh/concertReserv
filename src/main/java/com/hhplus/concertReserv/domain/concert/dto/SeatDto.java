@@ -18,9 +18,9 @@ public class SeatDto {
 
     public SeatDto(Seat seat){
         this.seatClass = seat.getSeatClass();
-        this.seatId = seat.getSeatPk().getSeatId();
+        this.seatId = seat.getSeatId();
         this.seatNo = seat.getSeatNo();
         this.price= seat.getPrice();
-        this.status = seat.getSeatPk().getStatus();
+        this.status = seat.getStatus();
     }
 }

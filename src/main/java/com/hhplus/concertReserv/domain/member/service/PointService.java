@@ -76,7 +76,7 @@ public class PointService {
 
                 // 2. 자리 확정 처리
                 payment.getReservation().setConfirmYn("Y");
-                payment.getReservation().getSeat().getSeatPk().setStatus(SeatEnum.OCCUPIED.getStatus());
+                payment.getReservation().getSeat().setStatus(SeatEnum.OCCUPIED.getStatus());
 
                 Payment afterPayment = paymentRepository.save(payment);
 

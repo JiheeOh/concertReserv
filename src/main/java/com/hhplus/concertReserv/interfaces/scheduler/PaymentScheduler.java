@@ -55,7 +55,7 @@ public class PaymentScheduler {
             // 3. 자리 반납 처리
             List<Reservation> reservation = payment.stream().map(Payment::getReservation).toList();
             List<Seat> seat = reservation.stream().map(Reservation::getSeat).toList();
-            seat.forEach(x -> x.getSeatPk().setStatus(null));
+            seat.forEach(x -> x.setStatus(null));
             seatRepository.updateStatus(seat);
 
             // 4. 예약 ID 삭제 처리

@@ -5,13 +5,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Setter
 public class Seat extends BaseEntity {
 
-    @EmbeddedId
-    private SeatPK seatPk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID seatId;
+
+    private String status;
 
     @ManyToOne
     @JoinColumns({
@@ -25,5 +30,9 @@ public class Seat extends BaseEntity {
     private String seatClass;
 
     private Long price;
+
+    // 낙관적 락일 때 필요
+//    @Version
+//    private Long version;
 
 }

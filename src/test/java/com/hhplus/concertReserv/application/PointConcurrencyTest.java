@@ -2,6 +2,7 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Slf4j
 public class PointConcurrencyTest {
 
     @Autowired
@@ -66,7 +68,7 @@ public class PointConcurrencyTest {
 
     @DisplayName("포인트 동시성 테스트 : 낙관적 락 ")
     @Test
-    void point_Multiple_Optimistic() {
+    void point_Multiple_Optimistic() throws ExecutionException, InterruptedException {
 
         // given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
@@ -76,12 +78,12 @@ public class PointConcurrencyTest {
         ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
 
-        // given 2 : 포인트 사용/ 적립 금액
+        // given 2 : 포인트 사용/적립 금액
         Long payAmount = 100L;
         long chargeAmount = 200L;
         long payRestAmount = reserveResult.getPayment().getPayAmount()-payAmount;
         long chargeAmount2 = 300L;
-        Long expectedPoint = pointFacade.getPoint(memberID).getPoint()-payAmount+chargeAmount-payRestAmount+chargeAmount2;
+        long expectedPoint = pointFacade.getPoint(memberID).getPoint()-payAmount+chargeAmount-payRestAmount+chargeAmount2;
 
         PointCommand.Paid paidRequest1 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payAmount);
         PointCommand.Charge chargeRequest1 = new PointCommand.Charge(memberID,chargeAmount);
@@ -94,13 +96,13 @@ public class PointConcurrencyTest {
         CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest2));
         CompletableFuture<PointDto> future4 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest2));
 
-        List<CompletableFuture<PointDto>> futures = List.of(future1, future2, future3,future4);
+        List<CompletableFuture<PointDto>> futures = List.of(future1, future2,future3,future4);
 
-        CompletableFuture<List<PointDto>> result = CompletableFuture.allOf(futures.toArray((new CompletableFuture[futures.size()])))
-                .thenApply(v -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        allOf.join();
 
-        // then
         assertThat(pointFacade.getPoint(memberID).getPoint()).isEqualTo(expectedPoint);
+
     }
 
     @DisplayName("좌석 예약 동시성 테스트 : 비관적 락 ")

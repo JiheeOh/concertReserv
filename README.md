@@ -6,9 +6,8 @@
 - 6주차 : 동시성 대응 
 
 ---
-# 동시성 분석 자료 
 
-- [동시성 분석 자료 Notion](https://pumped-polka-4d3.notion.site/6-a0d0d8d8d8f74b168c96854946bc89c0)
+
 
 
 # Swagger
@@ -53,9 +52,16 @@
 
 ![ConcertReserv](https://github.com/JiheeOh/concertReserv/assets/75823407/a11852a4-5a11-4445-9df2-38a55c26a102)
 
-
 </div>
 </details>
 
 
+<details>
+<summary>동시성 분석 자료  </summary>
+<div markdown="1">       
+
+- [동시성 분석 자료 Notion](https://pumped-polka-4d3.notion.site/6-a0d0d8d8d8f74b168c96854946bc89c0)
+
+</div>
+</details>
 

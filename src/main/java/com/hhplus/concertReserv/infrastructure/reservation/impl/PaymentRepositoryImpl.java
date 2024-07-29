@@ -19,8 +19,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
     }
     @Override
-    public Payment save(Payment payment) {
-        return paymentJPARepository.save(payment);
+    public Payment saveAndFlush(Payment payment) {
+        return paymentJPARepository.saveAndFlush(payment);
     }
 
     @Override

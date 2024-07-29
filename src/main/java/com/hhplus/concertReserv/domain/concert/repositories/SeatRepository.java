@@ -12,4 +12,6 @@ public interface SeatRepository {
     Optional<Seat> findSeat(UUID seatId);
 
     void updateStatus(List<Seat> seat);
+
+    void save(Seat seat);
 }

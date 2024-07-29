@@ -27,18 +27,18 @@ public class PaymentService {
     public ReserveDto createPayment(ReserveInfoDto infoDto) {
         ReserveDto resultDto = new ReserveDto();
         try {
-            // 결제 ID 생성해서 반환
+            // 결제 정보 생성
             Payment payment = new Payment();
             payment.setPayYn("N");
             payment.setPrice(infoDto.getReservation().getSeat().getPrice());
             payment.setDueTime(LocalDateTime.now().plusMinutes(5));
             payment.setReservation(infoDto.getReservation());
+            payment.setActuAmount(0L);
+            payment.setTokenId(infoDto.getTokenId());
 
-            Payment afterPayment = paymentRepository.save(payment);
-            PaymentDto paymentDto = new PaymentDto();
-            paymentDto.setDueTime(afterPayment.getDueTime());
-            paymentDto.setPayId(afterPayment.getPaymentId());
-            paymentDto.setPayAmount(afterPayment.getPrice());
+            Payment afterPayment = paymentRepository.saveAndFlush(payment);
+            PaymentDto paymentDto = new PaymentDto(afterPayment);
+
 
             // 예약된 좌석 정보 반환
             List<SeatDto> seatDtoList = new ArrayList<>();

@@ -11,6 +11,7 @@ public class PointDto {
     boolean result;
     String message;
     Long point;
+    Long tokenId;
 
     public PointDto(){
         this.result=true;

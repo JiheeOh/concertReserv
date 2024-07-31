@@ -13,7 +13,7 @@ public class PaymentDto {
     UUID payId;
     LocalDateTime dueTime;
     Long payAmount;
-    Long tokenId;
+    UUID tokenId;
 
     public PaymentDto(Payment payment){
         this.dueTime = payment.getDueTime();

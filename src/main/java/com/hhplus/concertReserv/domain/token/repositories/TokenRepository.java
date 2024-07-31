@@ -16,13 +16,13 @@ public interface TokenRepository {
 
     void deactivateToken(int dueTime);
 
-    Optional<TokenDto> findActivateToken(Long tokenId);
+    Optional<TokenDto> findActivateToken(UUID tokenId);
 
-    Optional<Token> isToken(Long tokenId);
+    Optional<Token> isToken(UUID tokenId);
 
-    void deactivateNotPaidToken(List<Long> tokenIds);
+    void deactivateNotPaidToken(List<UUID> tokenIds);
 
-    void deactivateToken(Long tokenId);
+    void deactivateToken(UUID tokenId);
 
     int countActiveToken();
 }

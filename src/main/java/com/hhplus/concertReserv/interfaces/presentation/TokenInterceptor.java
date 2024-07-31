@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -24,7 +26,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         if(request.getRequestURI().equals("/token/create")){
             return true;
         }
-        tokenFacade.findActivateToken(Long.valueOf(request.getHeader("tokenId")));
+        tokenFacade.findActivateToken(UUID.fromString(request.getHeader("tokenId")));
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 

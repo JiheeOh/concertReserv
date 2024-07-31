@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Tag(name= "TokenController", description = "토큰 발급, 조회 처리")
 @RestController
 @RequestMapping("/token")
@@ -51,7 +53,7 @@ public class TokenController {
             ,@ApiResponse(responseCode = "404", description = "Not Found"),
     })
     @Parameter(name = "tokenId", description = "토큰 ID", example = "550e8400-e29b-41d4-a716-446655440000")
-    public ResponseEntity<Object> findActivateToken(@RequestParam Long tokenId) {
+    public ResponseEntity<Object> findActivateToken(@RequestParam UUID tokenId) {
         return ResponseEntity.ok().body(tokenFacade.findActivateToken(tokenId));
 
     }

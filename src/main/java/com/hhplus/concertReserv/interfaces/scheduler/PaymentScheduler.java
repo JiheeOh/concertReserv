@@ -1,17 +1,17 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
+import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
 import com.hhplus.concertReserv.domain.reservation.entity.Payment;
 import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
-import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
 import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -40,7 +40,7 @@ public class PaymentScheduler {
      * 3. 자리 반납 처리
      * 4. 예약 반납 처리
      */
-    @Scheduled(cron = "0/4 * * * * *")
+//    @Scheduled(cron = "0/4 * * * * *")
     private void expiredNotPaidToken() {
         log.info("========== Expire not paid token scheduler start ==========");
 
@@ -49,7 +49,7 @@ public class PaymentScheduler {
             List<Payment> payment = paymentRepository.findNotPaidToken();
 
             // 2. 토큰 만료 처리
-            List<Long> tokenIds = payment.stream().map(Payment::getTokenId).toList();
+            List<UUID> tokenIds = payment.stream().map(Payment::getTokenId).toList();
             tokenRepository.deactivateNotPaidToken(tokenIds);
 
             // 3. 자리 반납 처리

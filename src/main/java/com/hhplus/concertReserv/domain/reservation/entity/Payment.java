@@ -26,7 +26,7 @@ public class Payment extends BaseEntity {
     @JoinColumn(name= "RESERVATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Reservation reservation;
 
-    private Long tokenId;
+    private UUID tokenId;
 
 
 }

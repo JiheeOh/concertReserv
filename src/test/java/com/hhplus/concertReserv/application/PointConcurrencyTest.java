@@ -34,7 +34,7 @@ public class PointConcurrencyTest {
         // given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
-        Long tokenId = 1L;
+        UUID tokenId = UUID.randomUUID();
 
         ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
@@ -73,7 +73,7 @@ public class PointConcurrencyTest {
         // given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
-        Long tokenId = 1L;
+        UUID tokenId = UUID.randomUUID();
 
         ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
@@ -112,7 +112,7 @@ public class PointConcurrencyTest {
         // given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
-        Long tokenId = 1L;
+        UUID tokenId = UUID.randomUUID();
 
         ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);

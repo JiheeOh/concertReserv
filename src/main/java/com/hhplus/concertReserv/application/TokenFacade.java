@@ -28,7 +28,7 @@ public class TokenFacade {
         return tokenService.createToken(memberId,concertId);
     }
 
-    public TokenDto findActivateToken(Long tokenId) {
+    public TokenDto findActivateToken(UUID tokenId) {
         if(!tokenService.isToken(tokenId)){
             throw new TokenNotFoundException(ErrorCode.TOKEN_NOT_FOUND);
         }

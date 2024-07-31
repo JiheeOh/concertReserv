@@ -44,9 +44,9 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        Long tokenId1 = 1L;
-        Long tokenId2 = 2L;
-        Long tokenId3 = 3L;
+        UUID tokenId1 = UUID.randomUUID();
+        UUID tokenId2 = UUID.randomUUID();
+        UUID tokenId3 = UUID.randomUUID();
 
 
         ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId, tokenId1);
@@ -87,9 +87,9 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        Long tokenId1 = 1L;
-        Long tokenId2 = 2L;
-        Long tokenId3 = 3L;
+        UUID tokenId1 = UUID.randomUUID();
+        UUID tokenId2 =UUID.randomUUID();
+        UUID tokenId3 =UUID.randomUUID();
 
         ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId,tokenId1);
         ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId,tokenId2);
@@ -128,9 +128,9 @@ public class ReserveConcurrencyTest {
 
         UUID seatId = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
 
-        Long tokenId1 = 1L;
-        Long tokenId2 = 2L;
-        Long tokenId3 = 3L;
+        UUID tokenId1 = UUID.randomUUID();
+        UUID tokenId2 = UUID.randomUUID();
+        UUID tokenId3 = UUID.randomUUID();
 
         ReserveCommand.ApplySeat request1 = new ReserveCommand.ApplySeat(member1, seatId,tokenId1);
         ReserveCommand.ApplySeat request2 = new ReserveCommand.ApplySeat(member2, seatId,tokenId2);

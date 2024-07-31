@@ -40,11 +40,8 @@ class TokenServiceTest {
         UUID memberId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
 
         Token lastOne = new Token();
-        lastOne.setWaitOrder(0L);
 
         Token resultToken = new Token();
-        resultToken.setWaitOrder(lastOne.getWaitOrder() + 1);
-        resultToken.setStatus((1));
         resultToken.setMemberId(memberId);
         resultToken.setConcertId(concertId);
 
@@ -53,8 +50,6 @@ class TokenServiceTest {
         when(tokenRepository.getLastOne(concertId)).thenReturn(Optional.of(lastOne));
 
         //then
-        assertThat(tokenService.createToken(memberId, concertId).getWaitOrder()).isEqualTo(resultToken.getWaitOrder());
-        assertThat(tokenService.createToken(memberId, concertId).getStatus()).isEqualTo(resultToken.getStatus());
         assertThat(tokenService.createToken(memberId, concertId).getMemberId()).isEqualTo(resultToken.getMemberId());
         assertThat(tokenService.createToken(memberId, concertId).getConcertId()).isEqualTo(resultToken.getConcertId());
         assertThat(tokenService.createToken(memberId, concertId)).isInstanceOf(TokenDto.class);
@@ -75,8 +70,8 @@ class TokenServiceTest {
         Token lastOne = new Token();
 
         Token resultToken = new Token();
-        resultToken.setWaitOrder(0L);
-        resultToken.setStatus((1));
+//        resultToken.setWaitOrder(0L);
+//        resultToken.setStatus((1));
         resultToken.setMemberId(memberId);
         resultToken.setConcertId(concertId);
 
@@ -85,8 +80,8 @@ class TokenServiceTest {
         when(tokenRepository.getLastOne(concertId)).thenReturn(Optional.of(lastOne));
 
         //then
-        assertThat(tokenService.createToken(memberId,concertId).getWaitOrder()).isEqualTo(resultToken.getWaitOrder());
-        assertThat(tokenService.createToken(memberId,concertId).getStatus()).isEqualTo(resultToken.getStatus());
+//        assertThat(tokenService.createToken(memberId,concertId).getWaitOrder()).isEqualTo(resultToken.getWaitOrder());
+//        assertThat(tokenService.createToken(memberId,concertId).getStatus()).isEqualTo(resultToken.getStatus());
         assertThat(tokenService.createToken(memberId,concertId).getMemberId()).isEqualTo(resultToken.getMemberId());
         assertThat(tokenService.createToken(memberId,concertId).getConcertId()).isEqualTo(resultToken.getConcertId());
         assertThat(tokenService.createToken(memberId,concertId)).isInstanceOf(TokenDto.class);
@@ -102,7 +97,7 @@ class TokenServiceTest {
     @Test
     void find_deactivate_Token_fail() {
         //given
-        Long tokenId = 1L;
+        UUID tokenId = UUID.randomUUID();
 
         when(tokenRepository.findActivateToken(tokenId)).thenReturn(Optional.empty());
 

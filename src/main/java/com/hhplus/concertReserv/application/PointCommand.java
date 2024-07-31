@@ -19,12 +19,12 @@ public class PointCommand {
      * 결제 처리용 인자
      */
     public record Paid(
-            Long tokenId,
+            UUID tokenId,
             UUID paymentId,
             LocalDateTime dueTime,
             Long amount
     ){
-        public Paid(Long tokenId,UUID paymentId, Long amount) {
+        public Paid(UUID tokenId,UUID paymentId, Long amount) {
             this(tokenId, paymentId, null, amount);
         }
     }

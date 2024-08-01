@@ -71,15 +71,15 @@ class ReservationServiceTest {
         result.add(seat);
 
         //when
-        when(seatRepository.findReserveAvailable(concertID)).thenReturn(result);
+        when(seatRepository.findReserveAvailable(concertID,concertSchedule.getConcertDt())).thenReturn(result);
 
         //Then
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertId()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertId());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertDate()).isEqualTo(result.get(0).getConcertSchedule().getConcertDt());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getConcertNm()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertNm());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getSeatNo()).isEqualTo(result.get(0).getSeatNo());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getSeatClass()).isEqualTo(result.get(0).getSeatClass());
-        assertThat(reservationService.findReserveAvailable(concertID).getConcert().getSeat().get(0).getPrice()).isEqualTo(result.get(0).getPrice());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getConcertId()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertId());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getConcertDate()).isEqualTo(result.get(0).getConcertSchedule().getConcertDt());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getConcertNm()).isEqualTo(result.get(0).getConcertSchedule().getConcertId().getConcertNm());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getSeat().get(0).getSeatNo()).isEqualTo(result.get(0).getSeatNo());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getSeat().get(0).getSeatClass()).isEqualTo(result.get(0).getSeatClass());
+        assertThat(reservationService.findReserveAvailableSeat(concertID,concertSchedule.getConcertDt()).getConcert().getSeat().get(0).getPrice()).isEqualTo(result.get(0).getPrice());
 
     }
 

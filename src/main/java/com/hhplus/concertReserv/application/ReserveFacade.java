@@ -1,11 +1,13 @@
 package com.hhplus.concertReserv.application;
 
+import com.hhplus.concertReserv.domain.concert.dto.ConcertScheduleDtos;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
 import com.hhplus.concertReserv.domain.reservation.service.PaymentService;
 import com.hhplus.concertReserv.domain.reservation.service.ReservationService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -19,8 +21,8 @@ public class ReserveFacade {
         this.paymentService = paymentService;
     }
 
-    public ReserveDto findReserveAvailable(UUID concertId) {
-        return reservationService.findReserveAvailable(concertId);
+    public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
+        return reservationService.findReserveAvailableSeat(concertId,concertDt);
     }
 
     public ReserveDto applySeat(ReserveCommand.ApplySeat requestBody) {
@@ -31,5 +33,10 @@ public class ReserveFacade {
             return new ReserveDto(false,appliedSeat.getMessage());
         }
         return paymentService.createPayment(appliedSeat);
+    }
+
+
+    public ConcertScheduleDtos findReserveAvailableSchedule(UUID concertId) {
+        return reservationService.findReserveAvailableSchedule(concertId);
     }
 }

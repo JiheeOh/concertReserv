@@ -44,39 +44,20 @@ public class PointService {
     public PointDto charge(UUID memberId, Long amount) {
         PointDto pointDto = new PointDto();
         log.info(String.format(" ==== charge() start : charge amount = %d ====", amount));
-        boolean chargeSuccess = false;
-        int retryCount = 0;
-        while (!chargeSuccess & retryCount <10000) {
-            retryCount +=1;
-            try {
-                if (amount < 0) {
-                    throw new InvalidAmountException(ErrorCode.INVALID_AMOUNT);
-                }
-                // 1. 사용자 조회
-                Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-                member.setPoint(member.getPoint() + amount);
 
-                // 2. 포인트 충전
-                Member result = memberRepository.save(member);
-                pointDto.setPoint(result.getPoint());
-                chargeSuccess = true;
-                log.info(String.format(" ==== charge() end : charge result = %d ==== ", pointDto.getPoint()));
-
-            } catch (ObjectOptimisticLockingFailureException oe) {
-                log.error(oe.toString());
-                log.info(String.format("======= retryCount : %d, amount : %d ======", retryCount,amount));
-                entityManager.clear();
-                pointDto.setResult(false);
-                pointDto.setMessage(oe.toString());
-
-
-            } catch (Exception e) {
-                log.error(e.toString());
-                pointDto.setResult(false);
-                pointDto.setMessage(e.toString());
-
-            }
+        if (amount < 0) {
+            throw new InvalidAmountException(ErrorCode.INVALID_AMOUNT);
         }
+        // 1. 사용자 조회
+        Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        member.setPoint(member.getPoint() + amount);
+
+        // 2. 포인트 충전
+        Member result = memberRepository.save(member);
+        pointDto.setPoint(result.getPoint());
+        log.info(String.format(" ==== charge() end : charge result = %d ==== ", pointDto.getPoint()));
+
+
         return pointDto;
     }
 
@@ -86,52 +67,53 @@ public class PointService {
 
         log.info(String.format(" ==== paid() start : request amount %d ", amount));
 
-                if (amount < 0) {
-                    throw new IllegalArgumentException("Invalid amount");
-                }
-                Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new InvalidAmountException(ErrorCode.INVALID_AMOUNT));
+        if (amount < 0) {
+            throw new IllegalArgumentException("Invalid amount");
+        }
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new InvalidAmountException(ErrorCode.INVALID_AMOUNT));
 
-                if (payment.getActuAmount() + amount == payment.getPrice()) { // 완납 경우
-                    // 1. 결제 완료 처리
-                    payment.setPayYn("Y");
-                    payment.setActuAmount(payment.getActuAmount() + amount);
+        if (payment.getActuAmount() + amount == payment.getPrice()) { // 완납 경우
+            // 1. 결제 완료 처리
+            payment.setPayYn("Y");
+            payment.setActuAmount(payment.getActuAmount() + amount);
 
-                    // 2. 포인트 차감 처리
-                    Member member = memberRepository.findMember(payment.getReservation().getMember().getMemberId()).orElseThrow(()-> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-                    if (member.getPoint() <= 0) {
-                        throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
-                    }
-                    member.setPoint(member.getPoint() - amount);
-                    memberRepository.save(member);
+            // 2. 포인트 차감 처리
+            Member member = memberRepository.findMember(payment.getReservation().getMember().getMemberId()).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            if (member.getPoint() <= 0) {
+                throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
+            }
+            member.setPoint(member.getPoint() - amount);
+            memberRepository.save(member);
 
-                    // 3. 자리 확정 처리
-                    payment.getReservation().setConfirmYn("Y");
-                    payment.getReservation().getSeat().setStatus(SeatEnum.OCCUPIED.getStatus());
+            // 3. 자리 확정 처리
+            payment.getReservation().setConfirmYn("Y");
+            payment.getReservation().getSeat().setStatus(SeatEnum.OCCUPIED.getStatus());
 
-                    paymentRepository.saveAndFlush(payment);
+            paymentRepository.saveAndFlush(payment);
 
-                    // 4. return 값 생성
-                    pointDto.setPoint(member.getPoint());
-                    pointDto.setTokenId(payment.getTokenId());
-                    log.info(String.format(" ==== paid() end : All paid result : %d ====", pointDto.getPoint()));
+            // 4. return 값 생성
+            pointDto.setPoint(member.getPoint());
+            pointDto.setMemberId(member.getMemberId());
+            pointDto.setConcertId(payment.getReservation().getSeat().getConcertSchedule().getConcertId().getConcertId());
+            log.info(String.format(" ==== paid() end : All paid result : %d ====", pointDto.getPoint()));
 
-                } else { // 분납인 경우
-                    // 1.포인트 차감
-                    Member member = payment.getReservation().getMember();
-                    if (member.getPoint() <= 0) {
-                        throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
-                    }
-                    member.setPoint(member.getPoint() - amount);
-                    memberRepository.save(member);
+        } else { // 분납인 경우
+            // 1.포인트 차감
+            Member member = payment.getReservation().getMember();
+            if (member.getPoint() <= 0) {
+                throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
+            }
+            member.setPoint(member.getPoint() - amount);
+            memberRepository.save(member);
 
-                    // 2.결제 완료 처리
-                    payment.setActuAmount(payment.getActuAmount() + amount);
-                    paymentRepository.saveAndFlush(payment);
+            // 2.결제 완료 처리
+            payment.setActuAmount(payment.getActuAmount() + amount);
+            paymentRepository.saveAndFlush(payment);
 
-                    // 4. return 값 생성
-                    pointDto.setPoint(member.getPoint());
-                    log.info(String.format(" ==== paid() end : Not all paid result : %d ====", pointDto.getPoint()));
-                }
+            // 4. return 값 생성
+            pointDto.setPoint(member.getPoint());
+            log.info(String.format(" ==== paid() end : Not all paid result : %d ====", pointDto.getPoint()));
+        }
         return pointDto;
     }
 

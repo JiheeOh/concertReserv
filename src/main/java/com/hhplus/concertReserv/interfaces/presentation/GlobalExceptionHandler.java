@@ -16,27 +16,27 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // CustomException
     @ExceptionHandler(value = TokenNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleTokenNotFoundException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleTokenNotFoundException(TokenNotFoundException e) {
         log.error("handleTokenNotFoundException", e);
-        return ResponseEntity.status(500).body(new ErrorResponse(ErrorCode.TOKEN_NOT_FOUND.getStatus(),ErrorCode.TOKEN_NOT_FOUND.getMessage()));
+        return ResponseEntity.status(500).body(new ErrorResponse(e.getStatus(),e.getMessage()));
     }
 
     @ExceptionHandler(value = OccupiedSeatException.class)
-    public ResponseEntity<ErrorResponse> handleOccupiedSeatException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleOccupiedSeatException(OccupiedSeatException e) {
         log.error("handleOccupiedSeatException", e);
-        return ResponseEntity.status(500).body(new ErrorResponse(ErrorCode.OCCUPIED_SEAT.getStatus(),ErrorCode.OCCUPIED_SEAT.getMessage()));
+        return ResponseEntity.status(500).body(new ErrorResponse(e.getStatus(),e.getMessage()));
     }
 
     @ExceptionHandler(value = InvalidAmountException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidAmountException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleInvalidAmountException(InvalidAmountException e) {
         log.error("handleInvalidAmountException", e);
-        return ResponseEntity.status(500).body(new ErrorResponse(ErrorCode.INVALID_AMOUNT.getStatus(),ErrorCode.INVALID_AMOUNT.getMessage()));
+        return ResponseEntity.status(500).body(new ErrorResponse(e.getStatus(),e.getMessage()));
     }
 
     @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
         log.error("handleUserNotFoundException", e);
-        return ResponseEntity.status(500).body(new ErrorResponse(ErrorCode.MEMBER_NOT_FOUND.getStatus(),ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+        return ResponseEntity.status(500).body(new ErrorResponse(e.getStatus(),e.getMessage()));
     }
 
 

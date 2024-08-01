@@ -2,8 +2,11 @@ package com.hhplus.concertReserv.domain.reservation.service;
 
 import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.concert.dto.ConcertDto;
+import com.hhplus.concertReserv.domain.concert.dto.ConcertScheduleDto;
+import com.hhplus.concertReserv.domain.concert.dto.ConcertScheduleDtos;
 import com.hhplus.concertReserv.domain.concert.dto.SeatDto;
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
+import com.hhplus.concertReserv.domain.concert.repositories.ConcertScheduleRepository;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
 import com.hhplus.concertReserv.domain.member.entity.Member;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
@@ -16,10 +19,15 @@ import com.hhplus.concertReserv.exception.UserNotFoundException;
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,23 +36,34 @@ import java.util.UUID;
 public class ReservationService {
     private final SeatRepository seatRepository;
     private final ReservationRepository reservationRepository;
+    private final ConcertScheduleRepository concertScheduleRepository;
 
     private final MemberRepository memberRepository;
 
 
     public ReservationService(SeatRepository seatRepository,
                               ReservationRepository reservationRepository,
-                              MemberRepository memberRepository) {
+                              MemberRepository memberRepository,
+                              ConcertScheduleRepository concertScheduleRepository) {
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
+        this.concertScheduleRepository = concertScheduleRepository;
     }
 
-    public ReserveDto findReserveAvailable(UUID concertId) {
+    public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
         ReserveDto dto = new ReserveDto();
         try {
             log.info(" ==== findReserveAvailable() start ====");
-            List<Seat> seats = seatRepository.findReserveAvailable(concertId);
+            List<Seat> seats = seatRepository.findReserveAvailable(concertId, concertDt);
+
+            if (seats.isEmpty()) {
+                ConcertScheduleDto scheduleDto = new ConcertScheduleDto(concertId,concertDt);
+                List<ConcertScheduleDto> scheduleDtos = new ArrayList<>();
+                scheduleDtos.add(scheduleDto);
+                deleteSchedule(new ConcertScheduleDtos(scheduleDtos));
+                return dto;
+            }
 
             // 결과값 DTO로 변환
             ConcertDto concertDto = new ConcertDto(seats.get(0)); //모든 좌석은 같은 concertId를 가진다.
@@ -57,6 +76,14 @@ public class ReservationService {
         }
 
         return dto;
+    }
+
+    /**
+     * 모든 좌석이 예약되어서 예약이 불가능한 콘서트 캐싱 삭제
+     */
+    @CacheEvict(cacheNames = "CONCERT_SCHEDULE", key = "#dto.getDtos().get(0).getConcertId()", cacheManager = "cacheManager")
+    public void deleteSchedule(ConcertScheduleDtos dto) {
+        concertScheduleRepository.updateDelYnToN(dto.getDtos().get(0).getConcertId(), LocalDateTime.parse(dto.getDtos().get(0).getConcertDt(),DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss.SSS")));
     }
 
     /**
@@ -75,7 +102,7 @@ public class ReservationService {
         ReserveInfoDto resultDto = new ReserveInfoDto();
 
         try {
-            log.info(String.format(" ==== applySeat() start  : %s ====",memberId));
+            log.info(String.format(" ==== applySeat() start  : %s ====", memberId));
             // 1. 등록된 사용자인지 확인
             Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
@@ -94,7 +121,7 @@ public class ReservationService {
 //            reservation.setStatus(SeatEnum.RESERVED.getStatus());
 
             resultDto.setReservation(reservationRepository.save(reservation));
-            log.info(String.format(" ==== applySeat() success  : %s ====",memberId));
+            log.info(String.format(" ==== applySeat() success  : %s ====", memberId));
 
         } catch (OccupiedSeatException e) { // 체크 당시 이미 자리가 차있을 경우
             log.error("=== Seat already occupied ===");
@@ -104,8 +131,8 @@ public class ReservationService {
             log.error(String.format("=== Seat occupied recently : %s ===", memberId));
             resultDto.setResult(false);
             resultDto.setMessage(ErrorCode.OCCUPIED_SEAT.getMessage());
-        }catch(ObjectOptimisticLockingFailureException e){
-            log.error(String.format("낙관적 락 exception 정상 발생 %s",e));
+        } catch (ObjectOptimisticLockingFailureException e) {
+            log.error(String.format("낙관적 락 exception 정상 발생 %s", e));
             resultDto.setResult(false);
             resultDto.setMessage(ErrorCode.OCCUPIED_SEAT.getMessage());
         } catch (Exception e) {
@@ -117,4 +144,10 @@ public class ReservationService {
         return resultDto;
     }
 
+
+    @Cacheable(cacheNames = "CONCERT_SCHEDULE", key = "#concertId", condition = "#concertId != null", cacheManager = "cacheManager")
+    public ConcertScheduleDtos findReserveAvailableSchedule(UUID concertId) {
+        List<ConcertScheduleDto> result = concertScheduleRepository.findAvailableSchedule(concertId);
+        return new ConcertScheduleDtos(result);
+    }
 }

@@ -5,11 +5,13 @@ import com.hhplus.concertReserv.domain.common.service.ValidationService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class TokenFacade {
     private final ValidationService validationService;
     private final TokenService tokenService;
@@ -23,15 +25,16 @@ public class TokenFacade {
         UUID concertId = authorization.concertId();
 
         if(!validationService.checkMemberConcertValidate(memberId,concertId)){
+            log.error(" ==== Not validate memberId or concertId ==== ");
             throw new IllegalArgumentException();
         }
         return tokenService.createToken(memberId,concertId);
     }
 
-    public TokenDto findActivateToken(UUID tokenId) {
-        if(!tokenService.isToken(tokenId)){
-            throw new TokenNotFoundException(ErrorCode.TOKEN_NOT_FOUND);
-        }
-        return tokenService.findActivateToken(tokenId);
+    public boolean findActivateToken(TokenCommand.CreateToken authorization) {
+        UUID memberId = authorization.memberId();
+        UUID concertId = authorization.concertId();
+
+        return tokenService.findActivateToken(memberId,concertId);
     }
 }

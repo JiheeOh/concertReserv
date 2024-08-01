@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -31,20 +32,35 @@ public class ReserveController {
     }
 
     /**
-     * 토큰을 받아서 예약이 가능한 날짜와 좌석 정보를 반환한다.
-     * 콘서트 Id, token Id 정보를 UI 에서 받아야한다.
+     * 해당 콘서트의 예약이 가능한 좌석 정보를 반환한다.
      *
      * @param concertId 콘서트 아이디
      * @return 예약가능한 날짜와 좌석 정보
      */
-    @GetMapping("/concerts")
-    @Operation(summary = "콘서트 별 예약가능한 날짜와 좌석 정보 반환", description = "신청하려는 콘서트의 예약 가능한 날짜와 좌석 정보를 반환")
+    @GetMapping("/concerts/seats")
+    @Operation(summary = "콘서트 별 예약가능한 좌석 정보 반환", description = "신청하려는 콘서트의 예약 가능한  좌석 정보를 반환")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = ReserveDto.class))})
             , @ApiResponse(responseCode = "404", description = "Not Found")})
-    @Parameters({@Parameter(name = "tokenId", description = "토큰 ID", example = "1"),
+    @Parameters({@Parameter(name = "concertDt", description = "콘서트 일시", example = "2024-12-25 13:00:00.000"),
             @Parameter(name = "concertId", description = "콘서트 ID", example = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d")})
-    public ResponseEntity<Object> reserveAvailable(@RequestParam UUID concertId) {
-        return ResponseEntity.ok().body(reserveFacade.findReserveAvailable(concertId));
+    public ResponseEntity<Object> reserveAvailableSeat(@RequestParam UUID concertId,@RequestParam LocalDateTime concertDt) {
+        return ResponseEntity.ok().body(reserveFacade.findReserveAvailableSeat(concertId,concertDt));
+    }
+
+    /**
+     * 해당 콘서트의 예약이 가능한 스케줄 정보를 반환한다.
+     *
+     * @param concertId 콘서트 아이디
+     * @return 예약가능한 날짜와 좌석 정보
+     */
+    @GetMapping("/concerts/schedule")
+    @Operation(summary = "콘서트 별 예약가능한 스케줄 정보 반환", description = "신청하려는 콘서트의 예약 가능한  좌석 정보를 반환")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = ReserveDto.class))})
+            , @ApiResponse(responseCode = "404", description = "Not Found")})
+    @Parameters(
+            @Parameter(name = "concertId", description = "콘서트 ID", example = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"))
+    public ResponseEntity<Object> reserveAvailableSchedule(@RequestParam UUID concertId) {
+        return ResponseEntity.ok().body(reserveFacade.findReserveAvailableSchedule(concertId));
     }
 
     /**

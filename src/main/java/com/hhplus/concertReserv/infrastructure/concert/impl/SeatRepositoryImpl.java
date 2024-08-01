@@ -5,6 +5,7 @@ import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
 import com.hhplus.concertReserv.infrastructure.concert.repository.SeatJPARepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,8 +18,8 @@ public class SeatRepositoryImpl implements SeatRepository {
         this.seatJPARepository = seatJPARepository;
     }
     @Override
-    public List<Seat> findReserveAvailable(UUID concertId) {
-        return seatJPARepository.findByConcertId(concertId);
+    public List<Seat> findReserveAvailable(UUID concertId, LocalDateTime concertDt) {
+        return seatJPARepository.findByConcertId(concertId, concertDt);
     }
 
     @Override
@@ -26,10 +27,6 @@ public class SeatRepositoryImpl implements SeatRepository {
         return seatJPARepository.findByIdWithLock(seatId);
     }
 
-    @Override
-    public void updateStatus(List<Seat> seat) {
-        seatJPARepository.saveAll(seat);
-    }
 
     @Override
     public void save(Seat seat) {

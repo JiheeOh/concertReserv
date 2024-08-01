@@ -31,15 +31,55 @@ class ReserveIntegrationTest {
 
 
     // =================================================== 정상 확인 테스트 ===================================================
-    @DisplayName("예약가능한 날짜 좌석 조회 기능 정상 확인")
+    @DisplayName("예약가능한 좌석 조회 기능 정상 확인")
     @Test
-    void findReserveAvailable() {
+    void findReserveAvailableSeat() {
         // given
         UUID concertId = UUID.fromString("2e50b778-4de9-40e1-b9ba-9b1e786b4197");
+        LocalDateTime concertDt = LocalDateTime.of(2024,12,25,13,0,0,0);
 
         //then
-        assertDoesNotThrow(() -> reserveFacade.findReserveAvailable(concertId));
-        assertThat(reserveFacade.findReserveAvailable(concertId).getResult()).isEqualTo(true);
+        assertDoesNotThrow(() -> reserveFacade.findReserveAvailableSeat(concertId,concertDt));
+        assertThat(reserveFacade.findReserveAvailableSeat(concertId,concertDt).getResult()).isEqualTo(true);
+
+
+    }
+
+    @DisplayName("예약이 다 차서 예약이 불가능한 콘서트 캐싱 삭제 정상 확인 ")
+    @Test
+    void findReserveAvailableSeat_fullyBooked(){
+        // given
+        UUID concertID = UUID.fromString("0d511ce8-f6cc-4c4d-9d50-11725895ec11");
+        LocalDateTime concertDt = LocalDateTime.of(2024,11,12,13,0,0,0);
+
+
+        // when
+        reserveFacade.findReserveAvailableSeat(concertID,concertDt);
+
+
+        //then
+
+    }
+
+
+
+
+    @DisplayName("예약가능한 날짜 조회 기능 정상 확인")
+    @Test
+    void findReserveAvailableSchedule() {
+        // given
+//        UUID concertId = UUID.fromString("2e50b778-4de9-40e1-b9ba-9b1e786b4197");
+        UUID concertId = UUID.fromString("0d511ce8-f6cc-4c4d-9d50-11725895ec11");
+
+
+        //then
+        long beforeTime = System.currentTimeMillis();
+        log.info(" === findReserveAvailableSchedule start === ");
+        reserveFacade.findReserveAvailableSchedule(concertId);
+        long afterTime = System.currentTimeMillis();
+        long diffTime = (afterTime-beforeTime)/1000;
+        log.info(String.format(" === duration time %d === ",diffTime));
+
 
 
     }

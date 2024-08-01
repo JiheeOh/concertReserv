@@ -12,6 +12,9 @@ public class TokenCommand {
             UUID concertId
     )
     {
-
+        public CreateToken(UUID memberId, UUID concertId) {
+            this.memberId = memberId;
+            this.concertId = concertId;
+        }
     }
 }

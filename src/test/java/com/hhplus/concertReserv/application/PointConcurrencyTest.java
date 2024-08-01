@@ -34,9 +34,8 @@ public class PointConcurrencyTest {
         // given 1 : 예약 내역 생성
         UUID memberID = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
-        UUID tokenId = UUID.randomUUID();
 
-        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
 
         // given 2 : 포인트 사용/ 적립 금액
@@ -46,9 +45,9 @@ public class PointConcurrencyTest {
         long chargeAmount2 = 300L;
         Long expectedPoint = pointFacade.getPoint(memberID).getPoint()-payAmount+chargeAmount-payRestAmount+chargeAmount2;
 
-        PointCommand.Paid paidRequest1 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payAmount);
+        PointCommand.Paid paidRequest1 = new PointCommand.Paid( reserveResult.getPayment().getPayId(), payAmount);
         PointCommand.Charge chargeRequest1 = new PointCommand.Charge(memberID,chargeAmount);
-        PointCommand.Paid paidRequest2 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payRestAmount);
+        PointCommand.Paid paidRequest2 = new PointCommand.Paid(reserveResult.getPayment().getPayId(), payRestAmount);
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when
@@ -75,7 +74,7 @@ public class PointConcurrencyTest {
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
         UUID tokenId = UUID.randomUUID();
 
-        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
 
         // given 2 : 포인트 사용/적립 금액
@@ -85,9 +84,9 @@ public class PointConcurrencyTest {
         long chargeAmount2 = 300L;
         long expectedPoint = pointFacade.getPoint(memberID).getPoint()-payAmount+chargeAmount-payRestAmount+chargeAmount2;
 
-        PointCommand.Paid paidRequest1 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payAmount);
+        PointCommand.Paid paidRequest1 = new PointCommand.Paid(reserveResult.getPayment().getPayId(), payAmount);
         PointCommand.Charge chargeRequest1 = new PointCommand.Charge(memberID,chargeAmount);
-        PointCommand.Paid paidRequest2 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payRestAmount);
+        PointCommand.Paid paidRequest2 = new PointCommand.Paid(reserveResult.getPayment().getPayId(), payRestAmount);
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when
@@ -114,7 +113,7 @@ public class PointConcurrencyTest {
         UUID seatID = UUID.fromString("280a8a4d-a27f-4d01-b031-2a003cc4c039");
         UUID tokenId = UUID.randomUUID();
 
-        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID, tokenId);
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID);
         ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
 
         // given 2 : 포인트 사용/ 적립 금액
@@ -124,9 +123,9 @@ public class PointConcurrencyTest {
         long chargeAmount2 = 300L;
         Long expectedPoint = pointFacade.getPoint(memberID).getPoint()-payAmount+chargeAmount-payRestAmount+chargeAmount2;
 
-        PointCommand.Paid paidRequest1 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payAmount);
+        PointCommand.Paid paidRequest1 = new PointCommand.Paid(reserveResult.getPayment().getPayId(), payAmount);
         PointCommand.Charge chargeRequest1 = new PointCommand.Charge(memberID,chargeAmount);
-        PointCommand.Paid paidRequest2 = new PointCommand.Paid(tokenId, reserveResult.getPayment().getPayId(), payRestAmount);
+        PointCommand.Paid paidRequest2 = new PointCommand.Paid(reserveResult.getPayment().getPayId(), payRestAmount);
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when

@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.interfaces.presentation;
 
+import com.hhplus.concertReserv.application.TokenCommand;
 import com.hhplus.concertReserv.application.TokenFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         if(request.getRequestURI().equals("/token/create")){
             return true;
         }
-        tokenFacade.findActivateToken(UUID.fromString(request.getHeader("tokenId")));
+        TokenCommand.CreateToken authorization = new TokenCommand.CreateToken(UUID.fromString(request.getHeader("userId")),UUID.fromString(request.getHeader("memberId")));
+        tokenFacade.findActivateToken(authorization);
+
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 

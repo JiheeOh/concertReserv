@@ -25,7 +25,7 @@ public class ReserveFacade {
 
     public ReserveDto applySeat(ReserveCommand.ApplySeat requestBody) {
         ReserveInfoDto appliedSeat = reservationService.applySeat(requestBody.memberId(), requestBody.seatId());
-        appliedSeat.setTokenId(requestBody.tokenId());
+        appliedSeat.setToken(requestBody.memberId(),requestBody.concertId());
 
         if (!appliedSeat.isResult()){
             return new ReserveDto(false,appliedSeat.getMessage());

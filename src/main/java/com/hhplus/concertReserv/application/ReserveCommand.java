@@ -7,12 +7,11 @@ public class ReserveCommand {
     public record ApplySeat(
             UUID memberId,
             UUID concertId,
-            UUID tokenId,
             LocalDateTime concertDate,
             UUID seatId
     ) {
-        public ApplySeat(UUID memberId, UUID seatId,UUID tokenId) {
-            this(memberId, null, tokenId, null, seatId);
+        public ApplySeat(UUID memberId, UUID seatId) {
+            this(memberId, null, null, seatId);
         }
     }
 

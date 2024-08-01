@@ -3,7 +3,9 @@ package com.hhplus.concertReserv.interfaces.scheduler;
 import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 @Slf4j
 public class TokenScheduler {
 
@@ -14,25 +16,19 @@ public class TokenScheduler {
     }
 
     /**
-     *
-     * 스케줄러로 대기열 처리 (200명 유지하도록)
+     * 스케줄러로 대기열 처리 (1000명 유지하도록)
      * 1분마다 작동
-     * 1. 200명 통과처리 (놀이공원 방식)
-     * 2. 활성화인 토큰이 200이 넘을 경우, 활성화 상태가 30분째인 토큰 만료
+     * 1. 1000명 통과처리 (놀이공원 방식)
      */
     @Scheduled(cron = "0 0/1 * * * *")
-    private void waitStatusUpdate() {
+    public void activateToken() {
         // 유량 설정
-        int updateCount = 200;
-        int dueTime = 30;
+        Long updateCount = 1000L;
+        // 분 단위 설정 : 5분 뒤 만료
+        int timeOut = 5;
 
         log.info(String.format("========== Update waiting status : %d ==========", updateCount));
-        int activatedTokenCount = tokenRepository.countActiveToken();
-        if (activatedTokenCount < updateCount) {
-            tokenRepository.activateToken(updateCount);
-        } else {
-            tokenRepository.deactivateToken(dueTime);
-        }
+        tokenRepository.activateToken(updateCount,timeOut);
         log.info(String.format("========== Update waiting status completed : %d ==========", updateCount));
 
     }

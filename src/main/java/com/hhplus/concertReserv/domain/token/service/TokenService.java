@@ -55,13 +55,20 @@ public class TokenService {
 //
 //    }
 
+    /**
+     * 대기열 토큰 생성
+     *
+     * @param memberId  사용자 ID
+     * @param concertId 콘서트 ID
+     * @return 대기열에 등록된 토큰
+     */
     public TokenDto createToken(UUID memberId, UUID concertId) {
         log.info(" ==== createToken() start ====");
-        Token newOne = new Token(memberId,concertId);
-        try{
-                tokenRepository.save(newOne);
+        Token newOne = new Token(memberId, concertId);
+        try {
+            tokenRepository.save(newOne);
             log.info(" ==== createToken() end ====");
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.toString());
 
         }
@@ -73,32 +80,45 @@ public class TokenService {
 
     /**
      * 내 토큰이 활성화된 토큰인지 확인
-     * @param tokenId 토큰 ID
+     *
+     * @param memberId  사용자 ID
+     * @param concertId 콘서트 ID
      * @return 활성화된 토큰의 정보, 비활성화 토큰일 경우 exception 처리
      */
-    public TokenDto findActivateToken(UUID tokenId) {
-        return tokenRepository.findActivateToken(tokenId).orElseThrow(()-> new TokenNotFoundException(ErrorCode.TOKEN_DEACTIVATED));
-    }
-
-
-    /**
-     * 대기열에 등록된 토큰인지 확인
-     * @param tokenId 조회하려는 토큰
-     * @return 등록되어있는 토큰이면 true, 아니면 false
-     */
-    public boolean isToken(UUID tokenId){
-        if(tokenRepository.isToken(tokenId).isEmpty()){
-            return false;
+    public boolean findActivateToken(UUID memberId, UUID concertId) {
+        log.info(" ==== findActivateToken() start ====");
+        boolean result = false;
+        try {
+            Token newOne = new Token(memberId, concertId);
+            result = tokenRepository.findActivateToken(newOne);
+            log.info(" ==== findActivateToken() end ====");
+        }catch (Exception e){
+            log.error(e.toString());
         }
-        return true;
+
+        if (!result) {
+            throw new TokenNotFoundException(ErrorCode.TOKEN_DEACTIVATED);
+        }
+
+        return result;
     }
+
+
+
 
     /**
      * 토큰 만료 처리
-     * @param tokenId
+     * @param memberId 사용자 아이디
+     * @param concertId 콘서트 아이디
      */
-    public void deactivateToken(UUID tokenId){
-        tokenRepository.deactivateToken(tokenId);
-
+    public void deactivateToken(UUID memberId, UUID concertId) {
+        log.info("=== deactivateToken() started ===");
+        try {
+            Token token = new Token(memberId, concertId);
+            tokenRepository.deactivateToken(token);
+            log.info("=== deactivateToken() end ===");
+        }catch (Exception e){
+            log.error(e.toString());
+        }
     }
 }

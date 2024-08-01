@@ -1,11 +1,17 @@
 package com.hhplus.concertReserv.exception;
 
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import lombok.Getter;
 
-public class TokenNotFoundException extends RuntimeException{
-    private final ErrorCode ERROR_CODE;
+@Getter
+public class TokenNotFoundException extends RuntimeException {
+    private final String message;
+    private final int status;
+    private final String code;
 
     public TokenNotFoundException(ErrorCode errorCode) {
-        ERROR_CODE = errorCode;
+        this.message = errorCode.getMessage();
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
     }
 }

@@ -13,7 +13,8 @@ public class PointDto {
     boolean result;
     String message;
     Long point;
-    UUID tokenId;
+    UUID memberId;
+    UUID concertId;
 
     public PointDto(){
         this.result=true;

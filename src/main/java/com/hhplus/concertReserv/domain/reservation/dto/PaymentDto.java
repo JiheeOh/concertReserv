@@ -13,13 +13,11 @@ public class PaymentDto {
     UUID payId;
     LocalDateTime dueTime;
     Long payAmount;
-    UUID tokenId;
 
     public PaymentDto(Payment payment){
         this.dueTime = payment.getDueTime();
         this.payId = payment.getPaymentId();
         this.payAmount = payment.getPrice();
-        this.tokenId = payment.getTokenId();
 
     }
 }

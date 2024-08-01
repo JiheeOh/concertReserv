@@ -44,7 +44,7 @@ public class TokenController {
     /**
      * 대기열 토큰의 상태 조회
      * tokenId
-     * @param tokenId 대기열에 등록된 tokenId
+     * @param tokenRequest requestBody
      * @return 대기열 토큰
      */
     @PostMapping("/checkActivate")
@@ -53,8 +53,8 @@ public class TokenController {
             ,@ApiResponse(responseCode = "404", description = "Not Found"),
     })
     @Parameter(name = "tokenId", description = "토큰 ID", example = "550e8400-e29b-41d4-a716-446655440000")
-    public ResponseEntity<Object> findActivateToken(@RequestParam UUID tokenId) {
-        return ResponseEntity.ok().body(tokenFacade.findActivateToken(tokenId));
+    public ResponseEntity<Object> findActivateToken(@RequestBody TokenCommand.CreateToken tokenRequest) {
+        return ResponseEntity.ok().body(tokenFacade.findActivateToken(tokenRequest));
 
     }
 

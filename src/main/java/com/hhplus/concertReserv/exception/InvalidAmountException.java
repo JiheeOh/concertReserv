@@ -1,11 +1,19 @@
 package com.hhplus.concertReserv.exception;
 
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import lombok.Getter;
 
-public class InvalidAmountException extends RuntimeException{
-    private final ErrorCode ERROR_CODE;
+@Getter
+public class InvalidAmountException extends RuntimeException {
+    private final int status;
+
+    private final String code;
+
+    private final String message;
 
     public InvalidAmountException(ErrorCode errorCode) {
-        ERROR_CODE = errorCode;
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
     }
 }

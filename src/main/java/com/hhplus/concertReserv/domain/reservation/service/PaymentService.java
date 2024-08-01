@@ -34,7 +34,6 @@ public class PaymentService {
             payment.setDueTime(LocalDateTime.now().plusMinutes(5));
             payment.setReservation(infoDto.getReservation());
             payment.setActuAmount(0L);
-            payment.setTokenId(infoDto.getTokenId());
 
             Payment afterPayment = paymentRepository.saveAndFlush(payment);
             PaymentDto paymentDto = new PaymentDto(afterPayment);

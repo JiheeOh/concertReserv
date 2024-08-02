@@ -21,6 +21,6 @@ public interface ConcertScheduleJPARepository extends JpaRepository<ConcertSched
 
     @Transactional
     @Modifying
-    @Query("UPDATE ConcertSchedule s SET s.delYn = 'Y' where s.concertDt= :concertDt and s.concertDt = :concertId ")
+    @Query("UPDATE ConcertSchedule s SET s.delYn = 'Y' where s.concertDt= :concertDt and s.concertId.concertId = :concertId ")
     void updateDelYnToN(UUID concertId, LocalDateTime concertDt);
 }

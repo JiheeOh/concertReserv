@@ -1,38 +1,45 @@
 package com.hhplus.concertReserv.domain.token.entity;
 
-import com.hhplus.concertReserv.domain.common.entity.BaseEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.UUID;
 
-
-@Entity
+@RedisHash("Token")
 @Getter
 @Setter
-@SequenceGenerator(name = "TOKEN_SEQ_GENERATOR",
-        sequenceName = "TOKEN_SEQ",
-        initialValue = 1,
-        allocationSize = 1
-)
-public class Token extends BaseEntity {
+//@SequenceGenerator(name = "TOKEN_SEQ_GENERATOR",
+//        sequenceName = "TOKEN_SEQ",
+//        initialValue = 1,
+//        allocationSize = 1
+//)
+public class Token implements Serializable {
+
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+//                    generator = "TOKEN_SEQ_GENERATOR")
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-                    generator = "TOKEN_SEQ_GENERATOR")
-    private Long tokenId;
-
-    private Long waitOrder;
-
-    private int status;
-
     private UUID memberId;
 
     private UUID concertId;
 
-    private LocalDateTime activateDt;
+    private double createDt;
 
 
+    public Token(UUID memberId, UUID concertId) {
+        this.memberId = memberId;
+        this.concertId = concertId;
+    }
+
+
+    @Override
+    public String toString() {
+        return
+                "memberId=" + memberId +
+                        ", concertId=" + concertId;
+
+    }
 }

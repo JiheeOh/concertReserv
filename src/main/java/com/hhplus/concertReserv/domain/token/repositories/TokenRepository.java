@@ -10,19 +10,11 @@ import java.util.UUID;
 public interface TokenRepository {
     void save(Token token);
 
-    Optional<Token> getLastOne(UUID concertId);
+    void activateToken(Long count, int timeout);
 
-    void activateToken(int count);
+    boolean findActivateToken(Token token);
 
-    void deactivateToken(int dueTime);
 
-    Optional<TokenDto> findActivateToken(UUID tokenId);
+    void deactivateToken(Token tokenId);
 
-    Optional<Token> isToken(UUID tokenId);
-
-    void deactivateNotPaidToken(List<UUID> tokenIds);
-
-    void deactivateToken(UUID tokenId);
-
-    int countActiveToken();
 }

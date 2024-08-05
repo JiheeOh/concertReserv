@@ -55,10 +55,11 @@ public class TokenRedisRepositoryImpl implements TokenRepository {
     @Override
     public void activateToken(Long count,int timeOut) {
         ZSetOperations<String, Object> zSetOps = redisTemplate.opsForZSet();
+        // TODO 활성화할 애들 : 애초에 String 가져와서 -> set을 바로 만들면 낫지 않나
         Set<ZSetOperations.TypedTuple<Object>> toActivate = zSetOps.popMin(WAIT_KEY, count);
 
         if(toActivate !=null){
-
+            // Zset -> set
             SetOperations<String, Object> setOps = redisTemplate.opsForSet();
             for (ZSetOperations.TypedTuple<Object> content : toActivate) {
                 String setContent = Objects.requireNonNull(content.getValue()).toString();

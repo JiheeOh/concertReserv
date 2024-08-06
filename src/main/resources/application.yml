@@ -28,9 +28,7 @@ spring:
     path match:
       matching-strategy: ant_path_matcher
 
-  sql:
-    init:
-      data-locations: classpath:import.sql
+
   data:
     redis:
       port: 6379

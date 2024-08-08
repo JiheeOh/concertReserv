@@ -2,7 +2,7 @@ package com.hhplus.concertReserv.domain.reservation.entity;
 
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.common.entity.BaseEntity;
-import com.hhplus.concertReserv.domain.member.entity.Member;
+import com.hhplus.concertReserv.domain.member.entity.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +22,7 @@ public class Reservation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID reservationId;
 
     @ManyToOne
@@ -32,7 +33,7 @@ public class Reservation extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member member;
+    private Users member;
 
 //    Unique key로 동시성 제어할 때 필요
 //    private String status;

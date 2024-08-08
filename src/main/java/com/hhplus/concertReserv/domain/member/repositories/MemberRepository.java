@@ -1,14 +1,14 @@
 package com.hhplus.concertReserv.domain.member.repositories;
 
-import com.hhplus.concertReserv.domain.member.entity.Member;
+import com.hhplus.concertReserv.domain.member.entity.Users;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface MemberRepository {
 
-    Optional<Member> findMember(UUID memberId);
+    Optional<Users> findMember(UUID memberId);
 
-    Member save(Member member);
+    Users save(Users member);
 
 }

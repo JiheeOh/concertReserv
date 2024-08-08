@@ -14,6 +14,7 @@ public class Seat extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column( columnDefinition = "BINARY(16)")
     private UUID seatId;
 
     private String status;

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Concert extends BaseEntity {
 
     @Id
-    @Column(name="CONCERT_ID")
+    @Column(name="CONCERT_ID",columnDefinition = "BINARY(16)")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID concertId;
 

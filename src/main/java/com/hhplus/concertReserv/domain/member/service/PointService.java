@@ -2,7 +2,7 @@ package com.hhplus.concertReserv.domain.member.service;
 
 import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
-import com.hhplus.concertReserv.domain.member.entity.Member;
+import com.hhplus.concertReserv.domain.member.entity.Users;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
 import com.hhplus.concertReserv.domain.reservation.entity.Payment;
 import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
@@ -13,7 +13,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -49,12 +48,12 @@ public class PointService {
             throw new InvalidAmountException(ErrorCode.INVALID_AMOUNT);
         }
         // 1. 사용자 조회
-        Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-        member.setPoint(member.getPoint() + amount);
+        Users member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        member.setUserPoint(member.getUserPoint() + amount);
 
         // 2. 포인트 충전
-        Member result = memberRepository.save(member);
-        pointDto.setPoint(result.getPoint());
+        Users result = memberRepository.save(member);
+        pointDto.setPoint(result.getUserPoint());
         log.info(String.format(" ==== charge() end : charge result = %d ==== ", pointDto.getPoint()));
 
 
@@ -78,11 +77,11 @@ public class PointService {
             payment.setActuAmount(payment.getActuAmount() + amount);
 
             // 2. 포인트 차감 처리
-            Member member = memberRepository.findMember(payment.getReservation().getMember().getMemberId()).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-            if (member.getPoint() <= 0) {
+            Users member = memberRepository.findMember(payment.getReservation().getMember().getUserId()).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            if (member.getUserPoint() <= 0) {
                 throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
             }
-            member.setPoint(member.getPoint() - amount);
+            member.setUserPoint(member.getUserPoint() - amount);
             memberRepository.save(member);
 
             // 3. 자리 확정 처리
@@ -92,18 +91,18 @@ public class PointService {
             paymentRepository.saveAndFlush(payment);
 
             // 4. return 값 생성
-            pointDto.setPoint(member.getPoint());
-            pointDto.setMemberId(member.getMemberId());
+            pointDto.setPoint(member.getUserPoint());
+            pointDto.setMemberId(member.getUserId());
             pointDto.setConcertId(payment.getReservation().getSeat().getConcertSchedule().getConcertId().getConcertId());
             log.info(String.format(" ==== paid() end : All paid result : %d ====", pointDto.getPoint()));
 
         } else { // 분납인 경우
             // 1.포인트 차감
-            Member member = payment.getReservation().getMember();
-            if (member.getPoint() <= 0) {
+            Users member = payment.getReservation().getMember();
+            if (member.getUserPoint() <= 0) {
                 throw new InvalidAmountException(ErrorCode.NOT_ENOUGH_AMOUNT);
             }
-            member.setPoint(member.getPoint() - amount);
+            member.setUserPoint(member.getUserPoint() - amount);
             memberRepository.save(member);
 
             // 2.결제 완료 처리
@@ -111,7 +110,7 @@ public class PointService {
             paymentRepository.saveAndFlush(payment);
 
             // 4. return 값 생성
-            pointDto.setPoint(member.getPoint());
+            pointDto.setPoint(member.getUserPoint());
             log.info(String.format(" ==== paid() end : Not all paid result : %d ====", pointDto.getPoint()));
         }
         return pointDto;
@@ -127,8 +126,8 @@ public class PointService {
         PointDto pointDto = new PointDto();
         log.info(" ==== getPoint() start ====");
         try {
-            Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-            pointDto.setPoint(member.getPoint());
+            Users member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            pointDto.setPoint(member.getUserPoint());
             log.info(String.format(" ==== getPoint() end : %d ====", pointDto.getPoint()));
         } catch (Exception e) {
             log.error(e.toString());

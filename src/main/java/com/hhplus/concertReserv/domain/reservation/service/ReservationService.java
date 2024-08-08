@@ -8,7 +8,7 @@ import com.hhplus.concertReserv.domain.concert.dto.SeatDto;
 import com.hhplus.concertReserv.domain.concert.entity.Seat;
 import com.hhplus.concertReserv.domain.concert.repositories.ConcertScheduleRepository;
 import com.hhplus.concertReserv.domain.concert.repositories.SeatRepository;
-import com.hhplus.concertReserv.domain.member.entity.Member;
+import com.hhplus.concertReserv.domain.member.entity.Users;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
@@ -104,7 +104,7 @@ public class ReservationService {
         try {
             log.info(String.format(" ==== applySeat() start  : %s ====", memberId));
             // 1. 등록된 사용자인지 확인
-            Member member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+            Users member = memberRepository.findMember(memberId).orElseThrow(() -> new UserNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
             // 2. 자리 임시 배정 처리 ( RESERVED )
             Seat seat = seatRepository.findSeat(seatId).orElseThrow(() -> new OccupiedSeatException(ErrorCode.OCCUPIED_SEAT));

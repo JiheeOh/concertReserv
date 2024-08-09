@@ -10,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name ="seat", indexes = @Index(name="idx_seat_covering",columnList = "concert_id, concert_dt, seat_Id,seat_NO,seat_class,status"))
 public class Seat extends BaseEntity {
 
     @Id

@@ -12,13 +12,13 @@ import java.util.UUID;
 public class MemberRepositoryImpl implements MemberRepository {
     private final MemberJPARepository memberJPARepo;
 
-    public MemberRepositoryImpl(MemberJPARepository memberJPARepo){
+    public MemberRepositoryImpl(MemberJPARepository memberJPARepo) {
         this.memberJPARepo = memberJPARepo;
     }
 
     @Override
-    public Optional<Users> findMember(UUID memberId) {
-        return memberJPARepo.findById(memberId);
+    public Optional<Users> findMember(UUID userId) {
+        return memberJPARepo.findById(userId);
     }
 
     @Override

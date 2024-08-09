@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @IdClass(ConcertSchedulePK.class)
+@Table(name="concert_schedule", indexes = @Index(name = "idx_del_Yn", columnList = "DEL_YN"))
 public class ConcertSchedule extends BaseEntity {
 
     @Id

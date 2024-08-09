@@ -17,6 +17,8 @@ import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepos
 import com.hhplus.concertReserv.exception.OccupiedSeatException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
 import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import com.hhplus.concertReserv.interfaces.presentation.ReservationEvent;
+import com.hhplus.concertReserv.interfaces.presentation.ReservationEventHandler;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -40,15 +42,19 @@ public class ReservationService {
 
     private final MemberRepository memberRepository;
 
+    private final ReservationEventHandler reservationEventHandler;
+
 
     public ReservationService(SeatRepository seatRepository,
                               ReservationRepository reservationRepository,
                               MemberRepository memberRepository,
-                              ConcertScheduleRepository concertScheduleRepository) {
+                              ConcertScheduleRepository concertScheduleRepository,
+                              ReservationEventHandler reservationEventHandler) {
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.concertScheduleRepository = concertScheduleRepository;
+        this.reservationEventHandler =reservationEventHandler;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -112,13 +118,22 @@ public class ReservationService {
             seat.setStatus(SeatEnum.RESERVED.getStatus());
             seatRepository.save(seat);
 
-            // 3. 예약 정보 저장
+//             3. 예약 정보 저장
             Reservation reservation = new Reservation();
             reservation.setSeat(seat);
             reservation.setMember(member);
             reservation.setConfirmYn("N");
 //          unique key로 동시성 제어할때 필요
 //            reservation.setStatus(SeatEnum.RESERVED.getStatus());
+
+            // 예약 정보 publish 로직 추가
+            ReservationEvent reservationEvent = new ReservationEvent();
+            reservationEvent.setSeatId(seat.getSeatId());
+            reservationEvent.setUserId(member.getUserId());
+            reservationEvent.setConfirmYn("N");
+
+            reservationEventHandler.publish(reservationEvent);
+
 
             resultDto.setReservation(reservationRepository.save(reservation));
             log.info(String.format(" ==== applySeat() success  : %s ====", memberId));

@@ -54,7 +54,7 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.concertScheduleRepository = concertScheduleRepository;
-        this.reservationEventHandler =reservationEventHandler;
+        this.reservationEventHandler = reservationEventHandler;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -64,7 +64,7 @@ public class ReservationService {
             List<Seat> seats = seatRepository.findReserveAvailable(concertId, concertDt);
 
             if (seats.isEmpty()) {
-                ConcertScheduleDto scheduleDto = new ConcertScheduleDto(concertId,concertDt);
+                ConcertScheduleDto scheduleDto = new ConcertScheduleDto(concertId, concertDt);
                 List<ConcertScheduleDto> scheduleDtos = new ArrayList<>();
                 scheduleDtos.add(scheduleDto);
                 deleteSchedule(new ConcertScheduleDtos(scheduleDtos));
@@ -89,7 +89,7 @@ public class ReservationService {
      */
     @CacheEvict(cacheNames = "CONCERT_SCHEDULE", key = "#dto.getDtos().get(0).getConcertId()", cacheManager = "cacheManager")
     public void deleteSchedule(ConcertScheduleDtos dto) {
-        concertScheduleRepository.updateDelYnToN(dto.getDtos().get(0).getConcertId(), LocalDateTime.parse(dto.getDtos().get(0).getConcertDt(),DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss.SSS")));
+        concertScheduleRepository.updateDelYnToN(dto.getDtos().get(0).getConcertId(), LocalDateTime.parse(dto.getDtos().get(0).getConcertDt(), DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss.SSS")));
     }
 
     /**
@@ -127,10 +127,10 @@ public class ReservationService {
 //            reservation.setStatus(SeatEnum.RESERVED.getStatus());
 
             // 예약 정보 publish 로직 추가
-            ReservationEvent reservationEvent = new ReservationEvent();
-            reservationEvent.setSeatId(seat.getSeatId());
-            reservationEvent.setUserId(member.getUserId());
-            reservationEvent.setConfirmYn("N");
+            ReservationEvent reservationEvent = ReservationEvent.builder()
+                    .seatId(seat.getSeatId())
+                    .userId(member.getUserId())
+                    .confirmYn("N").build();
 
             reservationEventHandler.publish(reservationEvent);
 

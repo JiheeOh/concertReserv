@@ -75,7 +75,7 @@ public class PointService {
     @Transactional
     public PointDto paid(UUID paymentId, Long amount) {
         PointDto pointDto = new PointDto();
-        PaymentEvent paymentEvent = new PaymentEvent();
+
 
         log.info(String.format(" ==== paid() start : request amount %d ", amount));
 
@@ -104,10 +104,11 @@ public class PointService {
             paymentRepository.saveAndFlush(payment);
 
             // 결제 정보 publish 로직 추가
-            paymentEvent.setPayYn("Y");
-            paymentEvent.setConfirmYn("Y");
-            paymentEvent.setActuAmount(paymentEvent.getActuAmount() + amount);
-            paymentEvent.setStatus(SeatEnum.OCCUPIED.getStatus());
+            PaymentEvent paymentEvent = PaymentEvent.builder()
+                            .payYn("Y")
+                                    .confirmYn("Y")
+                    .actuAmount(payment.getActuAmount() + amount)
+                    .status(SeatEnum.OCCUPIED.getStatus()).build();
 
             paymentEventHandler.publish(paymentEvent);
 
@@ -131,7 +132,8 @@ public class PointService {
             paymentRepository.saveAndFlush(payment);
 
             // 결제 정보 publish 로직 추가
-            paymentEvent.setActuAmount(payment.getActuAmount() + amount);
+            PaymentEvent paymentEvent = PaymentEvent.builder()
+                            .actuAmount(payment.getActuAmount() + amount).build();
             paymentEventHandler.publish(paymentEvent);
 
             // 4. return 값 생성

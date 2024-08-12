@@ -26,6 +26,9 @@ public class PointConcurrencyTest {
     @Autowired
     ReserveFacade reserveFacade;
 
+    @Autowired
+    PaymentFacade paymentFacade;
+
 
     @DisplayName("포인트 동시성 테스트 : 락 없을 경우 순서 보장 fail ")
     @Test
@@ -51,9 +54,9 @@ public class PointConcurrencyTest {
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when
-        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest1));
+        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest1));
         CompletableFuture<PointDto> future2 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest1));
-        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest2));
+        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest2));
         CompletableFuture<PointDto> future4 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest2));
 
         List<CompletableFuture<PointDto>> futures = List.of(future1, future2, future3,future4);
@@ -90,9 +93,9 @@ public class PointConcurrencyTest {
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when
-        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest1));
+        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest1));
         CompletableFuture<PointDto> future2 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest1));
-        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest2));
+        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest2));
         CompletableFuture<PointDto> future4 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest2));
 
         List<CompletableFuture<PointDto>> futures = List.of(future1, future2,future3,future4);
@@ -129,9 +132,9 @@ public class PointConcurrencyTest {
         PointCommand.Charge chargeRequest2 = new PointCommand.Charge(memberID,chargeAmount2);
 
         // when
-        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest1));
+        CompletableFuture<PointDto> future1 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest1));
         CompletableFuture<PointDto> future2 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest1));
-        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> pointFacade.paid(paidRequest2));
+        CompletableFuture<PointDto> future3 = CompletableFuture.supplyAsync(() -> paymentFacade.paid(paidRequest2));
         CompletableFuture<PointDto> future4 = CompletableFuture.supplyAsync(() -> pointFacade.charge(chargeRequest2));
 
         List<CompletableFuture<PointDto>> futures = List.of(future1, future2, future3,future4);

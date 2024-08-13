@@ -1,6 +1,7 @@
 package com.hhplus.concertReserv.domain.reservation.dto;
 
 import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
+import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
 import com.hhplus.concertReserv.domain.token.entity.Token;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class ReserveInfoDto {
     private String message;
     private Reservation reservation;
     private Token token;
+    private ReservationEvent reservationEvent;
 
     public ReserveInfoDto(){
         this.result =true;

@@ -27,6 +27,9 @@ class ReserveIntegrationTest {
     @Autowired
     ReserveFacade reserveFacade;
 
+    @Autowired
+    PaymentFacade paymentFacade;
+
     // =================================================== 예외 확인 테스트 ===================================================
 
 
@@ -114,4 +117,23 @@ class ReserveIntegrationTest {
         assertThat(result.getConcert().getSeat().get(0).getStatus()).isEqualTo(SeatEnum.RESERVED.getStatus());
     }
 
+
+    @DisplayName("완납 결제 정상확인")
+    @Test
+    void paid() {
+        //given 1 : 예약 내역 생성
+        UUID memberID = UUID.fromString("11ef5521-3033-e112-8e94-bba7136bde1a");
+        UUID seatID = UUID.fromString("11ef557f-6745-0e20-8e94-bba7136bde1a");
+
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID);
+        ReserveDto reserveResult = reserveFacade.applySeat(reserveRequest);
+
+
+        // given2 : 결제 요청
+        PointCommand.Paid request = new PointCommand.Paid(reserveResult.getPayment().getPayId(), reserveResult.getPayment().getPayAmount());
+
+        //when
+        assertDoesNotThrow(() -> paymentFacade.paid(request));
+
+    }
 }

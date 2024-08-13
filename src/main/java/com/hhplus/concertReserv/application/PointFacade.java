@@ -45,30 +45,7 @@ public class PointFacade {
         return result;
     }
 
-    public PointDto paid(PointCommand.Paid requestBody) {
-        PointDto result = new PointDto();
 
-        boolean paidSuccess = false;
-        int retryCount = 0;
-
-        while (!paidSuccess && retryCount < 10000) {
-            retryCount += 1;
-            try {
-                result = pointService.paid(requestBody.paymentId(), requestBody.amount());
-                paidSuccess = true;
-                // 토큰 만료화
-                tokenService.deactivateToken(result.getMemberId(), result.getConcertId());
-
-            } catch (ObjectOptimisticLockingFailureException e) {
-                log.error(e.toString());
-                log.info(String.format("======= retryCount : %d, amount : %d ======", retryCount, requestBody.amount()));
-            } catch (Exception e) {
-                log.error(e.toString());
-                break;
-            }
-        }
-        return result;
-    }
 
     public PointDto getPoint(UUID memberId) {
         return pointService.getPoint(memberId);

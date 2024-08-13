@@ -4,11 +4,9 @@ import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.domain.token.entity.Token;
 import com.hhplus.concertReserv.domain.token.repositories.TokenRepository;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
-import com.hhplus.concertReserv.infrastructure.token.impl.TokenRedisRepositoryImpl;
-import com.hhplus.concertReserv.infrastructure.token.redisRepository.TokenRedisRepository;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import com.hhplus.concertReserv.infrastructure.redis.token.impl.TokenRedisRepositoryImpl;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

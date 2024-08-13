@@ -1,8 +1,7 @@
 package com.hhplus.concertReserv.interfaces.controller;
 
-import com.hhplus.concertReserv.application.ConcertFacade;
-import com.hhplus.concertReserv.application.ReserveCommand;
-import com.hhplus.concertReserv.application.ReserveFacade;
+import com.hhplus.concertReserv.application.*;
+import com.hhplus.concertReserv.domain.member.dto.PointDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,9 +25,12 @@ public class ReserveController {
     private final ReserveFacade reserveFacade;
     private final ConcertFacade concertFacade;
 
-    public ReserveController(ReserveFacade reserveFacade,ConcertFacade concertFacade) {
+    private final PaymentFacade paymentFacade;
+
+    public ReserveController(ReserveFacade reserveFacade, ConcertFacade concertFacade, PaymentFacade paymentFacade) {
         this.reserveFacade = reserveFacade;
         this.concertFacade = concertFacade;
+        this.paymentFacade = paymentFacade;
     }
 
     /**
@@ -90,5 +92,20 @@ public class ReserveController {
             , @ApiResponse(responseCode = "404", description = "Not Found")})
     public ResponseEntity<Object> applySeat(@RequestBody ReserveCommand.ApplySeat requestBody) {
         return ResponseEntity.ok().body(reserveFacade.applySeat(requestBody));
+    }
+
+    /**
+     * 임시배정된 자리를 결제
+     * 토큰 안에 만료시간, 콘서트 UUID, 사용자 UUID 가 있다.
+     * requestBody 안에 결제 UUID가 있다. 결제 식별자로 좌석 정보를 알 수 있다.
+     * @param requestBody requestBody
+     * @return 결제하고 나고 남은 포인트
+     */
+    @PostMapping("/paid")
+    @Operation(summary = "임시배정된 자리를 결제 요청", description = "임시 배정된 자리의 결제 처리 완료")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = PointDto.class))})
+            , @ApiResponse(responseCode = "404", description = "Not Found")})
+    public ResponseEntity<Object> paid(@RequestBody PointCommand.Paid requestBody) {
+        return ResponseEntity.ok().body(paymentFacade.paid(requestBody));
     }
 }

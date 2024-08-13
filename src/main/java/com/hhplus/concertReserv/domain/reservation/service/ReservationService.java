@@ -16,7 +16,9 @@ import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
 import com.hhplus.concertReserv.exception.OccupiedSeatException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
+import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
+import com.hhplus.concertReserv.interfaces.event.reservation.ReservationEventHandler;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -40,15 +42,19 @@ public class ReservationService {
 
     private final MemberRepository memberRepository;
 
+    private final ReservationEventHandler reservationEventHandler;
+
 
     public ReservationService(SeatRepository seatRepository,
                               ReservationRepository reservationRepository,
                               MemberRepository memberRepository,
-                              ConcertScheduleRepository concertScheduleRepository) {
+                              ConcertScheduleRepository concertScheduleRepository,
+                              ReservationEventHandler reservationEventHandler) {
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.concertScheduleRepository = concertScheduleRepository;
+        this.reservationEventHandler = reservationEventHandler;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -58,7 +64,7 @@ public class ReservationService {
             List<Seat> seats = seatRepository.findReserveAvailable(concertId, concertDt);
 
             if (seats.isEmpty()) {
-                ConcertScheduleDto scheduleDto = new ConcertScheduleDto(concertId,concertDt);
+                ConcertScheduleDto scheduleDto = new ConcertScheduleDto(concertId, concertDt);
                 List<ConcertScheduleDto> scheduleDtos = new ArrayList<>();
                 scheduleDtos.add(scheduleDto);
                 deleteSchedule(new ConcertScheduleDtos(scheduleDtos));
@@ -83,7 +89,7 @@ public class ReservationService {
      */
     @CacheEvict(cacheNames = "CONCERT_SCHEDULE", key = "#dto.getDtos().get(0).getConcertId()", cacheManager = "cacheManager")
     public void deleteSchedule(ConcertScheduleDtos dto) {
-        concertScheduleRepository.updateDelYnToN(dto.getDtos().get(0).getConcertId(), LocalDateTime.parse(dto.getDtos().get(0).getConcertDt(),DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss.SSS")));
+        concertScheduleRepository.updateDelYnToN(dto.getDtos().get(0).getConcertId(), LocalDateTime.parse(dto.getDtos().get(0).getConcertDt(), DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss.SSS")));
     }
 
     /**
@@ -112,7 +118,7 @@ public class ReservationService {
             seat.setStatus(SeatEnum.RESERVED.getStatus());
             seatRepository.save(seat);
 
-            // 3. 예약 정보 저장
+//             3. 예약 정보 저장
             Reservation reservation = new Reservation();
             reservation.setSeat(seat);
             reservation.setMember(member);
@@ -120,6 +126,13 @@ public class ReservationService {
 //          unique key로 동시성 제어할때 필요
 //            reservation.setStatus(SeatEnum.RESERVED.getStatus());
 
+            // 예약 정보 publish 로직 추가
+            ReservationEvent reservationEvent = ReservationEvent.builder()
+                    .seatId(seat.getSeatId())
+                    .userId(member.getUserId())
+                    .confirmYn("N").build();
+
+            resultDto.setReservationEvent(reservationEvent);
             resultDto.setReservation(reservationRepository.save(reservation));
             log.info(String.format(" ==== applySeat() success  : %s ====", memberId));
 

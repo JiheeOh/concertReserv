@@ -1,6 +1,6 @@
 package com.hhplus.concertReserv.exception;
 
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

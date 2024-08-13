@@ -1,6 +1,6 @@
 package com.hhplus.concertReserv.config;
 
-import com.hhplus.concertReserv.infrastructure.token.impl.TokenRedisRepositoryImpl;
+import com.hhplus.concertReserv.infrastructure.redis.token.impl.TokenRedisRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;

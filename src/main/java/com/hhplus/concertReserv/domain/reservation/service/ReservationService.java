@@ -16,9 +16,9 @@ import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
 import com.hhplus.concertReserv.exception.OccupiedSeatException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
-import com.hhplus.concertReserv.interfaces.presentation.ReservationEvent;
-import com.hhplus.concertReserv.interfaces.presentation.ReservationEventHandler;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
+import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
+import com.hhplus.concertReserv.interfaces.event.reservation.ReservationEventHandler;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -132,9 +132,7 @@ public class ReservationService {
                     .userId(member.getUserId())
                     .confirmYn("N").build();
 
-            reservationEventHandler.publish(reservationEvent);
-
-
+            resultDto.setReservationEvent(reservationEvent);
             resultDto.setReservation(reservationRepository.save(reservation));
             log.info(String.format(" ==== applySeat() success  : %s ====", memberId));
 

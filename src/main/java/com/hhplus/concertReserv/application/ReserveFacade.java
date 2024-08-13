@@ -3,6 +3,7 @@ package com.hhplus.concertReserv.application;
 import com.hhplus.concertReserv.domain.concert.dto.ConcertScheduleDtos;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
+import com.hhplus.concertReserv.domain.reservation.event.ReservationEventPublisher;
 import com.hhplus.concertReserv.domain.reservation.service.PaymentService;
 import com.hhplus.concertReserv.domain.reservation.service.ReservationService;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,12 @@ public class ReserveFacade {
     private final ReservationService reservationService;
     private final PaymentService paymentService;
 
-    public ReserveFacade(ReservationService reservationService, PaymentService paymentService) {
+    private final ReservationEventPublisher reservationEventPublisher;
+
+    public ReserveFacade(ReservationService reservationService, PaymentService paymentService, ReservationEventPublisher reservationEventPublisher) {
         this.reservationService = reservationService;
         this.paymentService = paymentService;
+        this.reservationEventPublisher = reservationEventPublisher;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -26,13 +30,14 @@ public class ReserveFacade {
     }
 
     public ReserveDto applySeat(ReserveCommand.ApplySeat requestBody) {
-        ReserveInfoDto appliedSeat = reservationService.applySeat(requestBody.memberId(), requestBody.seatId());
-        appliedSeat.setToken(requestBody.memberId(),requestBody.concertId());
+        ReserveInfoDto result = reservationService.applySeat(requestBody.memberId(), requestBody.seatId());
+        result.setToken(requestBody.memberId(),requestBody.concertId());
 
-        if (!appliedSeat.isResult()){
-            return new ReserveDto(false,appliedSeat.getMessage());
+        if (!result.isResult()){
+            return new ReserveDto(false,result.getMessage());
         }
-        return paymentService.createPayment(appliedSeat);
+        reservationEventPublisher.publish(result.getReservationEvent());
+        return paymentService.createPayment(result);
     }
 
 

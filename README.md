@@ -4,11 +4,12 @@
 - 3주차 : 요구사항 분석 및 설계
 - 4,5주차 : 주요 비즈니스 로직 구현
 - 6주차 : 동시성 대응
-- 7주차 : 캐싱과 대기열 redis 이관 
+- 7주차 : 캐싱과 대기열 redis 이관
+- 8주차 : Index와 트랜잭션 분리 
 
 ---
-# 7주차 과제 : Query 분석과 캐싱 전략 설계 
-[분석서](https://pumped-polka-4d3.notion.site/7-4f46141594604013bd81d9d59100b486?pvs=4)
+# 8주차 Index와 트랜잭션 분리 보고서 
+[Index, 트랜잭션 분리 분석서](https://pumped-polka-4d3.notion.site/8-496e733512a54519bfdb269e54367fe4?pvs=4)
 
 
 
@@ -64,6 +65,15 @@
 
 - [동시성 분석 자료 Notion](https://pumped-polka-4d3.notion.site/6-a0d0d8d8d8f74b168c96854946bc89c0)
 
+</div>
+</details>
+
+<details>
+<summary> 7주차 Query 분석과 캐싱 전략 설계   </summary>
+<div markdown="1">   
+  
+- [분석서](https://pumped-polka-4d3.notion.site/7-4f46141594604013bd81d9d59100b486?pvs=4)
+- 
 </div>
 </details>
 

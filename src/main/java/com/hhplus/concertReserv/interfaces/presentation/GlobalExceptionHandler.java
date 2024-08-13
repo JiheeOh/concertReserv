@@ -1,9 +1,7 @@
 package com.hhplus.concertReserv.interfaces.presentation;
 
-import com.hhplus.concertReserv.exception.InvalidAmountException;
-import com.hhplus.concertReserv.exception.OccupiedSeatException;
-import com.hhplus.concertReserv.exception.TokenNotFoundException;
-import com.hhplus.concertReserv.exception.UserNotFoundException;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
+import com.hhplus.concertReserv.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

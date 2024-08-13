@@ -3,8 +3,6 @@ package com.hhplus.concertReserv.application;
 import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.domain.common.service.ValidationService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
-import com.hhplus.concertReserv.exception.TokenNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.token.dto.TokenDto;
 import com.hhplus.concertReserv.exception.TokenNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

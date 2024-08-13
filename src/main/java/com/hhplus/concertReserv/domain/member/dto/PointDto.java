@@ -1,5 +1,6 @@
 package com.hhplus.concertReserv.domain.member.dto;
 
+import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +16,7 @@ public class PointDto {
     Long point;
     UUID memberId;
     UUID concertId;
+    PaymentEvent paymentEvent;
 
     public PointDto(){
         this.result=true;

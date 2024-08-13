@@ -10,12 +10,11 @@ import com.hhplus.concertReserv.domain.reservation.dto.PaymentDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
 import com.hhplus.concertReserv.domain.reservation.entity.Payment;
+import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
 import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
 import com.hhplus.concertReserv.exception.InvalidAmountException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
-import com.hhplus.concertReserv.interfaces.presentation.PaymentEvent;
-import com.hhplus.concertReserv.interfaces.presentation.PaymentEventHandler;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,12 +31,10 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
 
-    private final PaymentEventHandler paymentEventHandler;
 
-    public PaymentService(PaymentRepository paymentRepository, MemberRepository memberRepository, PaymentEventHandler paymentEventHandler){
+    public PaymentService(PaymentRepository paymentRepository, MemberRepository memberRepository){
         this.paymentRepository = paymentRepository;
         this.memberRepository = memberRepository;
-        this.paymentEventHandler = paymentEventHandler;
     }
 
     public ReserveDto createPayment(ReserveInfoDto infoDto) {
@@ -108,14 +105,14 @@ public class PaymentService {
 
             paymentRepository.saveAndFlush(payment);
 
-            // 결제 정보 publish 로직 추가
+            // 결제 정보 publish 추가
             PaymentEvent paymentEvent = PaymentEvent.builder()
                     .payYn("Y")
                     .confirmYn("Y")
                     .actuAmount(payment.getActuAmount() + amount)
                     .status(SeatEnum.OCCUPIED.getStatus()).build();
 
-            paymentEventHandler.publish(paymentEvent);
+            pointDto.setPaymentEvent(paymentEvent);
 
             // 4. return 값 생성
             pointDto.setPoint(member.getUserPoint());
@@ -136,10 +133,10 @@ public class PaymentService {
             payment.setActuAmount(payment.getActuAmount() + amount);
             paymentRepository.saveAndFlush(payment);
 
-            // 결제 정보 publish 로직 추가
+            // 결제 정보 publish 추가
             PaymentEvent paymentEvent = PaymentEvent.builder()
                     .actuAmount(payment.getActuAmount() + amount).build();
-            paymentEventHandler.publish(paymentEvent);
+            pointDto.setPaymentEvent(paymentEvent);
 
             // 4. return 값 생성
             pointDto.setPoint(member.getUserPoint());

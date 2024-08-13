@@ -1,6 +1,7 @@
 package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
+import com.hhplus.concertReserv.domain.reservation.event.PaymentEventPublisher;
 import com.hhplus.concertReserv.domain.reservation.service.PaymentService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +16,12 @@ public class PaymentFacade {
 
     private final TokenService tokenService;
 
-    public PaymentFacade(PaymentService paymentService, TokenService tokenService) {
+    private final PaymentEventPublisher paymentEventPublisher;
+
+    public PaymentFacade(PaymentService paymentService, TokenService tokenService, PaymentEventPublisher paymentSpringEventPublisher) {
         this.paymentService = paymentService;
         this.tokenService = tokenService;
+        this.paymentEventPublisher = paymentSpringEventPublisher;
     }
 
     public PointDto paid(PointCommand.Paid requestBody) {
@@ -31,6 +35,10 @@ public class PaymentFacade {
             try {
                 result = paymentService.paid(requestBody.paymentId(), requestBody.amount());
                 paidSuccess = true;
+
+                // 결제 정보 event 발행
+                paymentEventPublisher.publish(result.getPaymentEvent());
+
                 // 토큰 만료화
                 tokenService.deactivateToken(result.getMemberId(), result.getConcertId());
 

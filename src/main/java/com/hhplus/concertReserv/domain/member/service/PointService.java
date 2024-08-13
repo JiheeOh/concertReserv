@@ -1,19 +1,11 @@
 package com.hhplus.concertReserv.domain.member.service;
 
-import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
 import com.hhplus.concertReserv.domain.member.entity.Users;
 import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
-import com.hhplus.concertReserv.domain.reservation.entity.Payment;
-import com.hhplus.concertReserv.domain.reservation.repositories.PaymentRepository;
 import com.hhplus.concertReserv.exception.InvalidAmountException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
-import com.hhplus.concertReserv.interfaces.presentation.ErrorCode;
-import com.hhplus.concertReserv.interfaces.presentation.PaymentEvent;
-import com.hhplus.concertReserv.interfaces.presentation.PaymentEventHandler;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -22,8 +22,8 @@ public class Seat extends BaseEntity {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "CONCERT_DT",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)),
-            @JoinColumn(name = "CONCERT_ID",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+            @JoinColumn(name = "CONCERT_DT",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT) ,insertable = false, updatable = false),
+            @JoinColumn(name = "CONCERT_ID",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT), insertable = false, updatable = false)
     })
     private ConcertSchedule concertSchedule;
 

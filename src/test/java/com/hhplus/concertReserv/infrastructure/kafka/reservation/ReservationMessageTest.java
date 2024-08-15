@@ -31,7 +31,6 @@ class ReservationMessageTest {
     /**
      * Reservation Topic을 발행하고
      * reservation consumer group의 consumer 1이 잘 수신하는지 확인
-     * @throws InterruptedException
      */
     @DisplayName("카프카 메시지 발행과 수신 정상 작동 확인 ")
     @Test
@@ -50,7 +49,11 @@ class ReservationMessageTest {
 
         KafkaMessage<ReservationEvent> receivedMessage = reservationConsumer.getRecords().poll(10,TimeUnit.SECONDS);
         assertThat(receivedMessage).isNotNull();
-        assertThat(receivedMessage.getPayload()).isNotNull();
+        assertThat(receivedMessage.getPayload().getSeatId()).isEqualTo(event.getSeatId());
+        assertThat(receivedMessage.getPayload().getUserId()).isEqualTo(event.getUserId());
+        assertThat(receivedMessage.getPayload().getConfirmYn()).isEqualTo(event.getConfirmYn());
+
+
 
     }
 }

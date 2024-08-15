@@ -49,7 +49,11 @@ class PaymentMessageTest {
 
         KafkaMessage<PaymentEvent> receivedMessage = paymentConsumer.getRecords().poll(10,TimeUnit.SECONDS);
         assertThat(receivedMessage).isNotNull();
-        assertThat(receivedMessage.getPayload()).isNotNull();
+        assertThat(receivedMessage.getPayload().getActuAmount()).isEqualTo(event.getActuAmount());
+        assertThat(receivedMessage.getPayload().getPayYn()).isEqualTo(event.getPayYn());
+        assertThat(receivedMessage.getPayload().getConfirmYn()).isEqualTo(event.getConfirmYn());
+        assertThat(receivedMessage.getPayload().getStatus()).isEqualTo(event.getStatus());
+
 
     }
 

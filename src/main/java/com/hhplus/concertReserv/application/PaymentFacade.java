@@ -2,6 +2,7 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEventPublisher;
+import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
 import com.hhplus.concertReserv.domain.reservation.service.PaymentService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,10 @@ public class PaymentFacade {
 
     private final PaymentEventPublisher paymentEventPublisher;
 
-    public PaymentFacade(PaymentService paymentService, TokenService tokenService, PaymentEventPublisher paymentSpringEventPublisher) {
+    public PaymentFacade(PaymentService paymentService, TokenService tokenService, PaymentEventPublisher paymentEventPublisher) {
         this.paymentService = paymentService;
         this.tokenService = tokenService;
-        this.paymentEventPublisher = paymentSpringEventPublisher;
+        this.paymentEventPublisher = paymentEventPublisher;
     }
 
     public PointDto paid(PointCommand.Paid requestBody) {

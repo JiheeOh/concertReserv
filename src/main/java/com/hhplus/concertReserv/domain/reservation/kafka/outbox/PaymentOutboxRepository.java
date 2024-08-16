@@ -2,6 +2,8 @@ package com.hhplus.concertReserv.domain.reservation.kafka.outbox;
 
 import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.PaymentOutbox;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PaymentOutboxRepository {
@@ -9,5 +11,7 @@ public interface PaymentOutboxRepository {
 
     void complete(PaymentOutbox outbox);
 
-    PaymentOutbox findByPaymentId(UUID paymentId);
+    Optional<PaymentOutbox> findByPaymentId(UUID paymentId);
+
+    Optional<List<PaymentOutbox>> findPublishFailed();
 }

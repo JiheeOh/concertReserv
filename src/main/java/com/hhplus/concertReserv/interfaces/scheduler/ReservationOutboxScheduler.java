@@ -38,6 +38,11 @@ public class ReservationOutboxScheduler {
                         .userId(retryEventId.get().get(i).getUserId())
                         .build();
 
+                // retry 횟수 +1
+                ReservationOutbox outbox = retryEventId.get().get(i);
+                outbox.setRetry(outbox.getRetry()+1);
+                outboxRepository.save(outbox);
+
                 reservationMessagePublisher.publish(event);
             }
         }

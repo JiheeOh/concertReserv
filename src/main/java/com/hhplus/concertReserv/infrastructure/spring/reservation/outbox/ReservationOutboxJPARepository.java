@@ -12,6 +12,6 @@ public interface ReservationOutboxJPARepository extends JpaRepository<Reservatio
     @Query("select r from ReservationOutbox r where r.seatId= :seatId and r.userId= :userId")
     Optional<ReservationOutbox> findBySeatIdUserId(UUID seatId, UUID userId);
 
-    @Query(value = "select * from Reservation_Outbox r where r.status = 'INIT' and r.event_create_Dt > NOW() - INTERVAL 2 MINUTE ",nativeQuery = true)
+    @Query(value = "select * from Reservation_Outbox r where r.status = 'INIT' and r.event_create_Dt > NOW() - INTERVAL 2 MINUTE and r.retry < 10",nativeQuery = true)
     Optional<List<ReservationOutbox>> findPublishFailed();
 }

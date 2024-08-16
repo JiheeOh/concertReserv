@@ -1,7 +1,9 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
+import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
 import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.kafka.outbox.OutboxEnum;
 import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxRepository;
 import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.PaymentOutbox;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +35,16 @@ public class PaymentOutboxScheduler {
         Optional<List<PaymentOutbox>> retryEventId = outboxRepository.findPublishFailed();
         if (retryEventId.isPresent()) {
             for (int i = 0; i < retryEventId.get().size(); i++) {
-                PaymentEvent event = PaymentEvent.builder().build();
+                PaymentEvent event = PaymentEvent.builder()
+                        .paymentId(retryEventId.get().get(i).getPaymentId())
+                        .status(OutboxEnum.COMPLETED.getStatus())
+                        .build();
+
+                // retry 횟수 +1
+                PaymentOutbox outbox = retryEventId.get().get(i);
+                outbox.setRetry(outbox.getRetry()+1);
+                outboxRepository.save(outbox);
+
                 messagePublisher.publish(event);
             }
         }

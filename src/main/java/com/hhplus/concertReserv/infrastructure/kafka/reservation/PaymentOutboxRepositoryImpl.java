@@ -33,6 +33,9 @@ private final PaymentOutboxJPARepository paymentOutboxJPARepository;
         return paymentOutboxJPARepository.findByPaymentId(paymentId);
     }
 
+    /**
+     * 이벤트 생성시간이 10분이상이면서, retry 횟수가 10보다 적은 이벤트 가져오기
+     */
     @Override
     public Optional<List<PaymentOutbox>> findPublishFailed() {
         return paymentOutboxJPARepository.findPublishFailed();

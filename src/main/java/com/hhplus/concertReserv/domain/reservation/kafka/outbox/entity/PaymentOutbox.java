@@ -3,6 +3,7 @@ package com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,5 +26,8 @@ public class PaymentOutbox {
     private UUID paymentId;
     private LocalDateTime eventCreateDt;
     private LocalDateTime eventCompletedDt;
+
+    @ColumnDefault("0")
+    private Long retry;
 
 }

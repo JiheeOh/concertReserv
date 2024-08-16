@@ -12,6 +12,6 @@ public interface PaymentOutboxJPARepository extends JpaRepository<PaymentOutbox,
     @Query("select p from PaymentOutbox p where p.paymentId = :paymentId")
     Optional<PaymentOutbox> findByPaymentId(UUID paymentId);
 
-    @Query(value = "select * from Payment_Outbox p where p.status = 'INIT' and p.event_create_Dt > NOW() - INTERVAL 2 MINUTE ",nativeQuery = true)
+    @Query(value = "select * from Payment_Outbox p where p.status = 'INIT' and p.event_create_Dt > NOW() - INTERVAL 2 MINUTE and p.retry < 10",nativeQuery = true)
     Optional<List<PaymentOutbox>> findPublishFailed();
 }

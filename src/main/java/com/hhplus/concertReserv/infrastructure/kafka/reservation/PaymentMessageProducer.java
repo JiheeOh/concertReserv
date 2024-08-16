@@ -9,7 +9,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
 @Slf4j
@@ -28,7 +27,6 @@ public class PaymentMessageProducer implements PaymentMessagePublisher {
     public void publish(PaymentEvent paymentEvent) {
         KafkaMessage<PaymentEvent> message = new KafkaMessage<>();
         message.setPublishDt(LocalDateTime.now());
-        message.setEventKey(UUID.randomUUID().toString());
         message.setPayload(paymentEvent);
 
         log.info(">>> Kafka producer Send start : Payment Info {}", message);

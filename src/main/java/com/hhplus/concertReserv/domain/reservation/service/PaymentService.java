@@ -110,7 +110,8 @@ public class PaymentService {
                     .payYn("Y")
                     .confirmYn("Y")
                     .actuAmount(payment.getActuAmount() + amount)
-                    .status(SeatEnum.OCCUPIED.getStatus()).build();
+                    .status(SeatEnum.OCCUPIED.getStatus())
+                    .paymentId(paymentId).build();
 
             pointDto.setPaymentEvent(paymentEvent);
 

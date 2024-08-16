@@ -12,6 +12,5 @@ import java.time.LocalDateTime;
 public class KafkaMessage<T> {
     private LocalDateTime publishDt;
     private LocalDateTime eventCreateDt;
-    private String eventKey;
     private T payload;
 }

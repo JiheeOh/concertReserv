@@ -136,6 +136,7 @@ public class PaymentService {
 
             // 결제 정보 publish 추가
             PaymentEvent paymentEvent = PaymentEvent.builder()
+                    .paymentId(paymentId)
                     .actuAmount(payment.getActuAmount() + amount).build();
             pointDto.setPaymentEvent(paymentEvent);
 

@@ -1,6 +1,7 @@
 package com.hhplus.concertReserv.interfaces.consumer.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
+import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxWriter;
 import com.hhplus.concertReserv.infrastructure.kafka.KafkaMessage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,21 +11,24 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 @Component
 @Slf4j
 @Getter
 public class PaymentConsumer {
 
-    private BlockingQueue<KafkaMessage<PaymentEvent>> records = new LinkedBlockingQueue<>();
+    private final PaymentOutboxWriter outboxWriter;
+
+    public PaymentConsumer(PaymentOutboxWriter outboxWriter) {
+        this.outboxWriter = outboxWriter;
+
+    }
+
     @KafkaListener(topics = "payment",containerFactory = "containerPaymentListenerFactory", groupId ="payment_group")
-    private void reservationListener(@Payload KafkaMessage<PaymentEvent> paymentEvent, Acknowledgment ack, ConsumerRecordMetadata metaData){
-        log.info("> Kafka Consumer Read Start [Payment Event] :{}",paymentEvent);
-        records.add(paymentEvent);
+    private void paymentListener(@Payload KafkaMessage<PaymentEvent> message, Acknowledgment ack, ConsumerRecordMetadata metaData){
+        log.info("> Kafka Consumer Read Start [Payment Event] :{}",message);
         ack.acknowledge();
-        log.info("> Kafka Consumer Read End [Payment Event] : {}",paymentEvent);
+        outboxWriter.complete(message);
+        log.info("> Kafka Consumer Read End [Payment Event] : {}",message);
     }
 
 

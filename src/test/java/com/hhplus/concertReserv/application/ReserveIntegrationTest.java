@@ -2,6 +2,8 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
+import com.hhplus.concertReserv.domain.reservation.kafka.outbox.ReservationOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +32,11 @@ class ReserveIntegrationTest {
 
     @Autowired
     PaymentFacade paymentFacade;
+
+    @Autowired
+    ReservationOutboxRepository outboxRepository;
+
+
 
     // =================================================== 예외 확인 테스트 ===================================================
 
@@ -136,4 +144,35 @@ class ReserveIntegrationTest {
         assertDoesNotThrow(() -> paymentFacade.paid(request));
 
     }
+
+
+    /**
+     * outbox 로직 전체 테스트
+     * 결제 완료 후 outbox table에 결제 event가 저장되었는지 확인
+     */
+    @DisplayName("outbox test")
+    @Test
+    void applySeat_kafka_outbox () throws InterruptedException {
+        //given 1 : 예약 내역 생성
+        UUID memberID = UUID.fromString("11ef5521-3033-e112-8e94-bba7136bde1a");
+        UUID seatID = UUID.fromString("4c906c00-5598-11ef-8e94-bba7136bde1a");
+
+        ReserveCommand.ApplySeat reserveRequest = new ReserveCommand.ApplySeat(memberID, seatID);
+        //where
+        reserveFacade.applySeat(reserveRequest);
+
+        //then : outBox 테이블에 저장 되었는지 확인
+        Thread.sleep(120000);
+        Optional<ReservationOutbox> result= outboxRepository.findBySeatIdUserId(seatID,memberID);
+
+        assertThat(result.isPresent()).isEqualTo(true);
+        assertThat(result.get().getSeatId()).isEqualTo(seatID);
+        assertThat(result.get().getUserId()).isEqualTo(memberID);
+
+
+
+    }
+
+
+
 }

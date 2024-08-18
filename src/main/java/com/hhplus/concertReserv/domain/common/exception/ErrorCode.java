@@ -31,6 +31,12 @@ public enum ErrorCode {
     // 포인트가 부족할 때
     NOT_ENOUGH_AMOUNT(500,"500","There's no enough point to pay"),
 
+    // reservation 관련 outbox 정보 부재
+    RESERVATION_OUTBOX_NOT_FOUND(500,"500","Can't find reservation Outbox "),
+
+    // payment 관련 outbox 정보 부재
+    PAYMENT_OUTBOX_NOT_FOUND(500,"500","Can't find payment Outbox"),
+
     // 모든 에러처리
     INTERNAL_SERVER_ERROR(500,"500","Internal Server Error");
 

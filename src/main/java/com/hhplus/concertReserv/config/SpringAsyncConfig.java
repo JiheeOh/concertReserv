@@ -23,6 +23,11 @@ public class SpringAsyncConfig implements AsyncConfigurer {
         threadPoolTaskExecutor.setQueueCapacity(500);
         // 스레드가 유휴 상태일 때 최대 유지 시간 ( 기본 60초 )
         threadPoolTaskExecutor.setKeepAliveSeconds(60);
+
+        // 현재 실행중인 로직이 완료될때까지 기다렸다가 서비스를 종료(graceful shutdown)을 위한 옵션
+        threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        threadPoolTaskExecutor.setAwaitTerminationSeconds(10);
+
         threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
     }

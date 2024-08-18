@@ -3,6 +3,8 @@ package com.hhplus.concertReserv.domain.reservation.event;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
@@ -13,4 +15,5 @@ public class PaymentEvent {
         private Long actuAmount;
         private String confirmYn;
         private String status;
+        private UUID paymentId;
 }

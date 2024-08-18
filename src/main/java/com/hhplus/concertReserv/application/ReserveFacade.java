@@ -17,12 +17,10 @@ public class ReserveFacade {
     private final ReservationService reservationService;
     private final PaymentService paymentService;
 
-    private final ReservationEventPublisher reservationEventPublisher;
 
-    public ReserveFacade(ReservationService reservationService, PaymentService paymentService, ReservationEventPublisher reservationEventPublisher) {
+    public ReserveFacade(ReservationService reservationService, PaymentService paymentService) {
         this.reservationService = reservationService;
         this.paymentService = paymentService;
-        this.reservationEventPublisher = reservationEventPublisher;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -36,7 +34,6 @@ public class ReserveFacade {
         if (!result.isResult()){
             return new ReserveDto(false,result.getMessage());
         }
-        reservationEventPublisher.publish(result.getReservationEvent());
         return paymentService.createPayment(result);
     }
 

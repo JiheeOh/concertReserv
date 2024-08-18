@@ -2,9 +2,9 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.member.dto.PointDto;
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEventPublisher;
-import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
 import com.hhplus.concertReserv.domain.reservation.service.PaymentService;
 import com.hhplus.concertReserv.domain.token.service.TokenService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
@@ -25,6 +25,7 @@ public class PaymentFacade {
         this.paymentEventPublisher = paymentEventPublisher;
     }
 
+    @Transactional
     public PointDto paid(PointCommand.Paid requestBody) {
         PointDto result = new PointDto();
 

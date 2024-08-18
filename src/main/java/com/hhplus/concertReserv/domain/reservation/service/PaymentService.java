@@ -110,7 +110,8 @@ public class PaymentService {
                     .payYn("Y")
                     .confirmYn("Y")
                     .actuAmount(payment.getActuAmount() + amount)
-                    .status(SeatEnum.OCCUPIED.getStatus()).build();
+                    .status(SeatEnum.OCCUPIED.getStatus())
+                    .paymentId(paymentId).build();
 
             pointDto.setPaymentEvent(paymentEvent);
 
@@ -135,6 +136,7 @@ public class PaymentService {
 
             // 결제 정보 publish 추가
             PaymentEvent paymentEvent = PaymentEvent.builder()
+                    .paymentId(paymentId)
                     .actuAmount(payment.getActuAmount() + amount).build();
             pointDto.setPaymentEvent(paymentEvent);
 

@@ -13,6 +13,7 @@ import com.hhplus.concertReserv.domain.member.repositories.MemberRepository;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveInfoDto;
 import com.hhplus.concertReserv.domain.reservation.entity.Reservation;
+import com.hhplus.concertReserv.domain.reservation.event.ReservationEventPublisher;
 import com.hhplus.concertReserv.domain.reservation.repositories.ReservationRepository;
 import com.hhplus.concertReserv.exception.OccupiedSeatException;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
@@ -42,19 +43,20 @@ public class ReservationService {
 
     private final MemberRepository memberRepository;
 
-    private final ReservationEventHandler reservationEventHandler;
+
+    private final ReservationEventPublisher reservationEventPublisher;
 
 
     public ReservationService(SeatRepository seatRepository,
                               ReservationRepository reservationRepository,
                               MemberRepository memberRepository,
                               ConcertScheduleRepository concertScheduleRepository,
-                              ReservationEventHandler reservationEventHandler) {
+                              ReservationEventHandler reservationEventHandler, ReservationEventPublisher reservationEventPublisher) {
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.concertScheduleRepository = concertScheduleRepository;
-        this.reservationEventHandler = reservationEventHandler;
+        this.reservationEventPublisher = reservationEventPublisher;
     }
 
     public ReserveDto findReserveAvailableSeat(UUID concertId, LocalDateTime concertDt) {
@@ -131,6 +133,8 @@ public class ReservationService {
                     .seatId(seat.getSeatId())
                     .userId(member.getUserId())
                     .confirmYn("N").build();
+
+            reservationEventPublisher.publish(reservationEvent);
 
             resultDto.setReservationEvent(reservationEvent);
             resultDto.setReservation(reservationRepository.save(reservation));

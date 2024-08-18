@@ -1,7 +1,8 @@
 package com.hhplus.concertReserv.interfaces.event.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,12 @@ public class PaymentEventHandler {
 
     private final PaymentMessagePublisher paymentMessagePublisher;
 
+    private final PaymentOutboxWriter outboxWriter;
 
-    public PaymentEventHandler(PaymentMessagePublisher paymentMessagePublisher) {
+
+    public PaymentEventHandler(PaymentMessagePublisher paymentMessagePublisher, PaymentOutboxWriter outboxWriter) {
         this.paymentMessagePublisher = paymentMessagePublisher;
+        this.outboxWriter = outboxWriter;
     }
 
 //    @Async
@@ -32,6 +36,13 @@ public class PaymentEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void publishMessage(PaymentEvent paymentEvent){
         paymentMessagePublisher.publish(paymentEvent);
+
+    }
+
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void saveOutbox(PaymentEvent paymentEvent){
+        outboxWriter.save(paymentEvent);
 
     }
 }

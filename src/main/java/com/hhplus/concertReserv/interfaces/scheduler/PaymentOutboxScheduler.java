@@ -29,6 +29,8 @@ public class PaymentOutboxScheduler {
      * 1분 마다 작동하면서
      * 10분 이전에 publish publish가 되었지만 INIT상태인 데이터 다시 publish 실행
      */
+
+    //TODO : 추상 클래스 outbox / Generic 적용을 통한 범용적인 OutboxService 디자인
     @Scheduled(cron = "0 0/1 * * * *")
     public void retryPublishKafkaMessage() {
         Optional<List<PaymentOutbox>> retryEventId = outboxRepository.findPublishFailed();

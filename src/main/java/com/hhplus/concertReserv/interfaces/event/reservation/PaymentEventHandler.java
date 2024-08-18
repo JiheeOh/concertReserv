@@ -1,8 +1,8 @@
 package com.hhplus.concertReserv.interfaces.event.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxWriter;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

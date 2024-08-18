@@ -1,7 +1,7 @@
 package com.hhplus.concertReserv.infrastructure.kafka.reservation;
 
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.PaymentOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.PaymentOutbox;
 import com.hhplus.concertReserv.infrastructure.spring.reservation.outbox.PaymentOutboxJPARepository;
 import org.springframework.stereotype.Component;
 

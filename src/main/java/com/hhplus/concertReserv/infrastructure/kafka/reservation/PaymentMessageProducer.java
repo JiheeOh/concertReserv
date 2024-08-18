@@ -1,7 +1,7 @@
 package com.hhplus.concertReserv.infrastructure.kafka.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentMessagePublisher;
 import com.hhplus.concertReserv.infrastructure.kafka.KafkaMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

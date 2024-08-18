@@ -1,4 +1,4 @@
-package com.hhplus.concertReserv.domain.reservation.kafka.outbox;
+package com.hhplus.concertReserv.domain.reservation.message;
 
 import lombok.Getter;
 

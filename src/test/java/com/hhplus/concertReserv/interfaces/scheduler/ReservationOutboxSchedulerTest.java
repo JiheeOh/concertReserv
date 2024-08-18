@@ -1,7 +1,7 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.OutboxEnum;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.OutboxEnum;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 import com.hhplus.concertReserv.infrastructure.spring.reservation.outbox.ReservationOutboxJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,8 +2,8 @@ package com.hhplus.concertReserv.application;
 
 import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.reservation.dto.ReserveDto;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.ReservationOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,8 @@
 package com.hhplus.concertReserv.application;
 
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.OutboxEnum;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.PaymentOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.OutboxEnum;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.PaymentOutbox;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

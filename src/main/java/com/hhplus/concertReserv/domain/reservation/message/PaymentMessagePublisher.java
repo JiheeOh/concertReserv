@@ -1,4 +1,4 @@
-package com.hhplus.concertReserv.domain.reservation.kafka;
+package com.hhplus.concertReserv.domain.reservation.message;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
 

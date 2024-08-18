@@ -1,7 +1,7 @@
 package com.hhplus.concertReserv.infrastructure.kafka.reservation;
 
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.ReservationOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 import com.hhplus.concertReserv.infrastructure.spring.reservation.outbox.ReservationOutboxJPARepository;
 import org.springframework.stereotype.Repository;
 

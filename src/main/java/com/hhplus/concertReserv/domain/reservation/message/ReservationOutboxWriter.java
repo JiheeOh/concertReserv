@@ -1,8 +1,8 @@
-package com.hhplus.concertReserv.domain.reservation.kafka.outbox;
+package com.hhplus.concertReserv.domain.reservation.message;
 
 import com.hhplus.concertReserv.domain.common.exception.ErrorCode;
 import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 import com.hhplus.concertReserv.exception.UserNotFoundException;
 import com.hhplus.concertReserv.infrastructure.kafka.KafkaMessage;
 import lombok.extern.slf4j.Slf4j;

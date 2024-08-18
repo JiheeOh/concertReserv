@@ -1,6 +1,6 @@
-package com.hhplus.concertReserv.domain.reservation.kafka.outbox;
+package com.hhplus.concertReserv.domain.reservation.message;
 
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
 package com.hhplus.concertReserv.interfaces.event.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.ReservationMessagePublisher;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.ReservationOutboxWriter;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationOutboxWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

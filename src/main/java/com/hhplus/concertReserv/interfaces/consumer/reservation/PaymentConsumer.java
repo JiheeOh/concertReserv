@@ -1,7 +1,7 @@
 package com.hhplus.concertReserv.interfaces.consumer.reservation;
 
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxWriter;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxWriter;
 import com.hhplus.concertReserv.infrastructure.kafka.KafkaMessage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

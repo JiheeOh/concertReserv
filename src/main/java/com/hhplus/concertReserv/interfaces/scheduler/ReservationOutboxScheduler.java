@@ -1,9 +1,9 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
 import com.hhplus.concertReserv.domain.reservation.event.ReservationEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.ReservationMessagePublisher;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.ReservationOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.ReservationOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.ReservationOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.ReservationOutbox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

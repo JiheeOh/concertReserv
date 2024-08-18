@@ -1,11 +1,10 @@
 package com.hhplus.concertReserv.interfaces.scheduler;
 
-import com.hhplus.concertReserv.domain.concert.SeatEnum;
 import com.hhplus.concertReserv.domain.reservation.event.PaymentEvent;
-import com.hhplus.concertReserv.domain.reservation.kafka.PaymentMessagePublisher;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.OutboxEnum;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.PaymentOutboxRepository;
-import com.hhplus.concertReserv.domain.reservation.kafka.outbox.entity.PaymentOutbox;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentMessagePublisher;
+import com.hhplus.concertReserv.domain.reservation.message.OutboxEnum;
+import com.hhplus.concertReserv.domain.reservation.message.PaymentOutboxRepository;
+import com.hhplus.concertReserv.domain.reservation.message.entity.PaymentOutbox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

@@ -8,8 +8,6 @@
 - 8주차 : Index와 트랜잭션 분리 
 
 ---
-# 8주차 Index와 트랜잭션 분리 보고서 
-[Index, 트랜잭션 분리 분석서](https://pumped-polka-4d3.notion.site/8-496e733512a54519bfdb269e54367fe4?pvs=4)
 
 
 
@@ -76,4 +74,20 @@
 - 
 </div>
 </details>
+
+
+</div>
+</details>
+
+<details>
+<summary> 8주차 Index와 트랜잭션 분리 보고서   </summary>
+<div markdown="1">   
+  
+- [Index, 트랜잭션 분리 분석서](https://pumped-polka-4d3.notion.site/8-496e733512a54519bfdb269e54367fe4?pvs=4)
+- 
+</div>
+</details>
+ 
+
+
 
